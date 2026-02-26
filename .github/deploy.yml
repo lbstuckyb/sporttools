@@ -2,7 +2,7 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:  # Allow manual trigger
 
 permissions:
@@ -42,7 +42,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: main  # Get latest after build job
+          ref: master  # Get latest after build job
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
