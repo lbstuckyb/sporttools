@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournament Manager</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f7f7f7;
+      --bg-tertiary: #efefef;
+      --border: #e0e0e0;
+      --border-dark: #cccccc;
+      --text-primary: #0a0a0a;
+      --text-secondary: #555555;
+      --text-muted: #888888;
+      --interactive: #0a0a0a;
+      --interactive-hover: #2a2a2a;
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-display);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg);
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    .lang-toggle {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border-dark);
+    }
+
+    .lang-btn {
+      padding: 0.4rem 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: var(--bg);
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .lang-btn:first-child {
+      border-right: 1px solid var(--border-dark);
+    }
+
+    .lang-btn.active {
+      background: var(--interactive);
+      color: white;
+    }
+
+    .lang-btn:not(.active):hover {
+      background: var(--bg-tertiary);
+    }
+
+    /* Main Layout */
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 1rem 1.5rem;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      color: var(--text-muted);
+      transition: color 0.15s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active {
+      color: var(--text-primary);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--text-primary);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-badge {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--interactive);
+      color: white;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.25rem;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid var(--interactive);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .btn-primary {
+      background: var(--interactive);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--interactive-hover);
+    }
+
+    .btn-primary:disabled {
+      background: var(--border-dark);
+      border-color: var(--border-dark);
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-tertiary);
+    }
+
+    /* File Upload */
+    .file-upload {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .file-input {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-status {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      padding: 0.5rem 0.75rem;
+      background: var(--bg);
+      border: 1px dashed var(--border-dark);
+      flex: 1;
+    }
+
+    .file-status.has-file {
+      border-style: solid;
+      color: var(--text-primary);
+    }
+
+    /* Configuration Grid */
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .config-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .config-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .config-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+    }
+
+    .config-hint {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Stepper */
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      width: fit-content;
+      border: 1px solid var(--border-dark);
+    }
+
+    .stepper-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      transition: background 0.15s ease;
+    }
+
+    .stepper-btn:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .stepper-btn:disabled {
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    .stepper-value {
+      width: 48px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      border-left: 1px solid var(--border-dark);
+      border-right: 1px solid var(--border-dark);
+      padding: 0.4rem 0;
+    }
+
+    /* Time Input */
+    .time-input {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border-dark);
+      background: var(--bg);
+      width: 140px;
+    }
+
+    /* Slider */
+    .slider-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .slider {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: var(--border-dark);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--interactive);
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: var(--interactive);
+      cursor: pointer;
+      border: none;
+    }
+
+    .slider-value {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      min-width: 60px;
+      text-align: right;
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-dark);
+      padding: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.5rem;
+    }
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .summary-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .summary-value {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* Warning */
+    .warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--bg-tertiary);
+      border-left: 3px solid var(--text-primary);
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    .warning-icon {
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+
+    /* Preview Table */
+    .preview-wrapper {
+      border: 1px solid var(--border);
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .preview-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+    }
+
+    .preview-scroll {
+      max-height: 400px;
+      overflow: auto;
+    }
+
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .preview-table th {
+      position: sticky;
+      top: 0;
+      background: var(--bg-secondary);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .preview-table td {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    .preview-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .preview-table tr:hover td {
+      background: var(--bg-secondary);
+    }
+
+    /* Action Row */
+    .action-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Hidden */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Print Styles */
+    @media print {
+      .header, .tabs, .section:not(.print-section), .btn, .no-print {
+        display: none !important;
+      }
+
+      .main {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .preview-wrapper {
+        border: none;
+      }
+
+      .preview-scroll {
+        max-height: none;
+        overflow: visible;
+      }
+
+      .preview-table {
+        font-size: 10pt;
+      }
+
+      .preview-table th, .preview-table td {
+        padding: 0.3rem 0.5rem;
+      }
+    }
+
+    /* Print Header (only visible in print) */
+    .print-header {
+      display: none;
+    }
+
+    @media print {
+      .print-header {
+        display: block;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .print-header h1 {
+        font-size: 18pt;
+        margin-bottom: 0.25rem;
+      }
+
+      .print-header p {
+        font-size: 10pt;
+        color: var(--text-secondary);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo" data-i18n="title">Tournament Manager</div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="schedule" data-i18n="tabSchedule">Schedule</button>
+      <button class="tab-btn" data-tab="standings" data-i18n="tabStandings">Standings</button>
+    </div>
+
+    <!-- SCHEDULE TAB -->
+    <div id="tab-schedule" class="tab-content active">
+      
+      <!-- Step 1: Download Template -->
+      <div class="section">
+        <div class="section-header">
+          <span class="step-badge">1</span>
+          <h2 class="section-title" data-i18n="scheduleStep1Title">Download Team Template</h2>
+        </div>
+        <div class="card">
+          <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;" data-i18n="scheduleStep1Desc">Download the template, fill in your team names and affiliations, then upload it below.</p>
+          <button class="btn btn-secondary" id="downloadTemplateBtn" data-i18n="downloadTemplate">↓ Download Template</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Upload Teams -->
+      <div class="section">
+        <div class="section-header">
+          <span class="step-badge">2</span>
+          <h2 class="section-title" data-i18n="scheduleStep2Title">Upload Teams File</h2>
+        </div>
+        <div class="card">
+          <div class="file-upload">
+            <div class="file-input-wrapper">
+              <input type="file" class="file-input" id="teamsFileInput" accept=".xlsx,.xls">
+              <button class="btn btn-secondary" data-i18n="chooseFile">Choose File</button>
+              <span class="file-status" id="teamsFileStatus" data-i18n="noFileSelected">No file selected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Configure -->
+      <div class="section" id="configSection">
+        <div class="section-header">
+          <span class="step-badge">3</span>
+          <h2 class="section-title" data-i18n="scheduleStep3Title">Configure Tournament</h2>
+        </div>
+        
+        <div id="teamsWarning" class="warning hidden">
+          <span class="warning-icon">⚠</span>
+          <span data-i18n="oddTeamsWarning">Odd number of teams detected. One team will have a bye each round.</span>
+        </div>
+
+        <div class="card">
+          <div class="config-grid">
+            <div class="config-item">
+              <label class="config-label" data-i18n="configCourts">Number of Courts</label>
+              <div class="stepper">
+                <button class="stepper-btn" id="courtsDecrease">−</button>
+                <span class="stepper-value" id="courtsValue">2</span>
+                <button class="stepper-btn" id="courtsIncrease">+</button>
+              </div>
+              <span class="config-hint" id="courtsHint" data-i18n="courtsHint">Max needed: —</span>
+            </div>
+
+            <div class="config-item">
+              <label class="config-label" data-i18n="configStartTime">Start Time</label>
+              <input type="time" class="time-input" id="startTime" value="09:00">
+            </div>
+
+            <div class="config-item">
+              <label class="config-label" data-i18n="configDuration">Match Duration</label>
+              <div class="slider-wrapper">
+                <input type="range" class="slider" id="durationSlider" min="5" max="90" step="5" value="15">
+                <span class="slider-value" id="durationValue">15 min</span>
+              </div>
+            </div>
+
+            <div class="config-item">
+              <label class="config-label" data-i18n="configGap">Gap Between Matches</label>
+              <div class="slider-wrapper">
+                <input type="range" class="slider" id="gapSlider" min="0" max="60" step="5" value="5">
+                <span class="slider-value" id="gapValue">5 min</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Generate -->
+      <div class="section">
+        <div class="section-header">
+          <span class="step-badge">4</span>
+          <h2 class="section-title" data-i18n="scheduleStep4Title">Generate Schedule</h2>
+        </div>
+        <div class="card">
+          <div class="action-row">
+            <button class="btn btn-primary" id="generateScheduleBtn" disabled data-i18n="generateSchedule">Generate Schedule</button>
+          </div>
+
+          <!-- Summary -->
+          <div id="scheduleSummary" class="summary-card hidden" style="margin-top: 1.5rem;">
+            <div class="summary-item">
+              <span class="summary-label" data-i18n="summaryTeams">Teams</span>
+              <span class="summary-value" id="summaryTeams">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label" data-i18n="summaryMatches">Matches</span>
+              <span class="summary-value" id="summaryMatches">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label" data-i18n="summaryRounds">Rounds</span>
+              <span class="summary-value" id="summaryRounds">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label" data-i18n="summaryFinish">Finish Time</span>
+              <span class="summary-value" id="summaryFinish">—</span>
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div id="schedulePreview" class="preview-wrapper hidden">
+            <div class="preview-header">
+              <span class="preview-title" data-i18n="previewTitle">Preview</span>
+              <button class="btn btn-primary" id="downloadScheduleBtn" data-i18n="downloadSchedule">↓ Download Schedule</button>
+            </div>
+            <div class="preview-scroll">
+              <table class="preview-table" id="scheduleTable">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STANDINGS TAB -->
+    <div id="tab-standings" class="tab-content">
+      
+      <!-- Step 1: Upload Teams -->
+      <div class="section">
+        <div class="section-header">
+          <span class="step-badge">1</span>
+          <h2 class="section-title" data-i18n="standingsStep1Title">Upload Teams File</h2>
+        </div>
+        <div class="card">
+          <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;" data-i18n="standingsStep1Desc">Upload the same teams file used for schedule generation (provides affiliation data).</p>
+          <div class="file-upload">
+            <div class="file-input-wrapper">
+              <input type="file" class="file-input" id="standingsTeamsInput" accept=".xlsx,.xls">
+              <button class="btn btn-secondary" data-i18n="chooseFile">Choose File</button>
+              <span class="file-status" id="standingsTeamsStatus" data-i18n="noFileSelected">No file selected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Upload Results -->
+      <div class="section">
+        <div class="section-header">
+          <span class="step-badge">2</span>
+          <h2 class="section-title" data-i18n="standingsStep2Title">Upload Results File</h2>
+        </div>
+        <div class="card">
+          <p style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem;" data-i18n="standingsStep2Desc">Upload the schedule file with scores filled in (s1/p1 and s2/p2 columns).</p>
+          <div class="file-upload">
+            <div class="file-input-wrapper">
+              <input type="file" class="file-input" id="resultsFileInput" accept=".xlsx,.xls">
+              <button class="btn btn-secondary" data-i18n="chooseFile">Choose File</button>
+              <span class="file-status" id="resultsFileStatus" data-i18n="noFileSelected">No file selected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Generate -->
+      <div class="section print-section">
+        <div class="section-header no-print">
+          <span class="step-badge">3</span>
+          <h2 class="section-title" data-i18n="standingsStep3Title">Generate Standings</h2>
+        </div>
+        <div class="card">
+          <div class="action-row no-print">
+            <button class="btn btn-primary" id="generateStandingsBtn" disabled data-i18n="generateStandings">Generate Standings</button>
+          </div>
+
+          <!-- Skipped Matches Info -->
+          <div id="skippedInfo" class="warning hidden" style="margin-top: 1.5rem;">
+            <span class="warning-icon">ℹ</span>
+            <span id="skippedText"></span>
+          </div>
+
+          <!-- Print Header -->
+          <div class="print-header">
+            <h1 data-i18n="standingsPrintTitle">Tournament Standings</h1>
+            <p id="printDate"></p>
+          </div>
+
+          <!-- Preview -->
+          <div id="standingsPreview" class="preview-wrapper hidden">
+            <div class="preview-header no-print">
+              <span class="preview-title" data-i18n="previewTitle">Preview</span>
+              <div class="action-row">
+                <button class="btn btn-secondary" id="printStandingsBtn" data-i18n="printStandings">⎙ Print</button>
+                <button class="btn btn-primary" id="downloadStandingsBtn" data-i18n="downloadStandings">↓ Download</button>
+              </div>
+            </div>
+            <div class="preview-scroll">
+              <table class="preview-table" id="standingsTable">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ============================================================
+    // TRANSLATIONS
+    // ============================================================
+    const translations = {
+      en: {
+        title: 'Tournament Manager',
+        tabSchedule: 'Schedule',
+        tabStandings: 'Standings',
+        
+        // Schedule Tab
+        scheduleStep1Title: 'Download Team Template',
+        scheduleStep1Desc: 'Download the template, fill in your team names and affiliations, then upload it below.',
+        downloadTemplate: '↓ Download Template',
+        scheduleStep2Title: 'Upload Teams File',
+        chooseFile: 'Choose File',
+        noFileSelected: 'No file selected',
+        scheduleStep3Title: 'Configure Tournament',
+        oddTeamsWarning: 'Odd number of teams detected. One team will have a bye each round.',
+        configCourts: 'Number of Courts',
+        courtsHint: 'Max needed: —',
+        courtsHintValue: 'Max needed: {0}',
+        configStartTime: 'Start Time',
+        configDuration: 'Match Duration',
+        configGap: 'Gap Between Matches',
+        scheduleStep4Title: 'Generate Schedule',
+        generateSchedule: 'Generate Schedule',
+        summaryTeams: 'Teams',
+        summaryMatches: 'Matches',
+        summaryRounds: 'Rounds',
+        summaryFinish: 'Finish Time',
+        previewTitle: 'Preview',
+        downloadSchedule: '↓ Download Schedule',
+        
+        // Schedule Columns
+        colTeam1: 'Team1',
+        colS1: 's1',
+        colS2: 's2',
+        colTeam2: 'Team2',
+        colMatchNum: 'Match Number',
+        colRound: 'Round',
+        colCourt: 'Court',
+        colTime: 'Match Time',
+        
+        // Template
+        templateFileName: 'teams_template.xlsx',
+        templateColTeam: 'Team',
+        templateColAffiliation: 'Affiliation',
+        scheduleFileName: 'schedule.xlsx',
+        
+        // Standings Tab
+        standingsStep1Title: 'Upload Teams File',
+        standingsStep1Desc: 'Upload the same teams file used for schedule generation (provides affiliation data).',
+        standingsStep2Title: 'Upload Results File',
+        standingsStep2Desc: 'Upload the schedule file with scores filled in (s1/p1 and s2/p2 columns).',
+        standingsStep3Title: 'Generate Standings',
+        generateStandings: 'Generate Standings',
+        printStandings: '⎙ Print',
+        downloadStandings: '↓ Download',
+        standingsPrintTitle: 'Tournament Standings',
+        skippedMatches: '{0} match(es) skipped (empty scores)',
+        tieError: 'Error: Tie detected in match {0} ({1} vs {2}). Ties are not allowed.',
+        
+        // Standings Columns
+        standColPos: 'Pos',
+        standColTeam: 'Team',
+        standColCity: 'City',
+        standColPlayed: 'Bouts Played',
+        standColWon: 'Bouts Won',
+        standColWinPct: 'Win %',
+        standColFor: 'Points For',
+        standColAgainst: 'Points Against',
+        standColDiff: 'Point Diff',
+        
+        standingsFileName: 'standings.xlsx',
+        
+        // File Status
+        fileLoaded: '{0} loaded ({1} teams)',
+        resultsLoaded: '{0} loaded ({1} matches)'
+      },
+      es: {
+        title: 'Gestor de Torneos',
+        tabSchedule: 'Programación',
+        tabStandings: 'Posiciones',
+        
+        // Schedule Tab
+        scheduleStep1Title: 'Descargar Plantilla',
+        scheduleStep1Desc: 'Descarga la plantilla, completa los nombres de equipos y afiliaciones, luego súbela abajo.',
+        downloadTemplate: '↓ Descargar Plantilla',
+        scheduleStep2Title: 'Subir Archivo de Equipos',
+        chooseFile: 'Elegir Archivo',
+        noFileSelected: 'Ningún archivo seleccionado',
+        scheduleStep3Title: 'Configurar Torneo',
+        oddTeamsWarning: 'Número impar de equipos detectado. Un equipo descansará cada ronda.',
+        configCourts: 'Número de Pistas',
+        courtsHint: 'Máximo necesario: —',
+        courtsHintValue: 'Máximo necesario: {0}',
+        configStartTime: 'Hora de Inicio',
+        configDuration: 'Duración del Partido',
+        configGap: 'Intervalo entre Partidos',
+        scheduleStep4Title: 'Generar Programación',
+        generateSchedule: 'Generar Programación',
+        summaryTeams: 'Equipos',
+        summaryMatches: 'Partidos',
+        summaryRounds: 'Rondas',
+        summaryFinish: 'Hora de Fin',
+        previewTitle: 'Vista Previa',
+        downloadSchedule: '↓ Descargar Programación',
+        
+        // Schedule Columns
+        colTeam1: 'Equipo1',
+        colS1: 'p1',
+        colS2: 'p2',
+        colTeam2: 'Equipo2',
+        colMatchNum: 'Número de Partido',
+        colRound: 'Ronda',
+        colCourt: 'Pista',
+        colTime: 'Hora del Partido',
+        
+        // Template
+        templateFileName: 'plantilla_equipos.xlsx',
+        templateColTeam: 'Equipo',
+        templateColAffiliation: 'Afiliación',
+        scheduleFileName: 'programacion.xlsx',
+        
+        // Standings Tab
+        standingsStep1Title: 'Subir Archivo de Equipos',
+        standingsStep1Desc: 'Sube el mismo archivo de equipos usado para la programación (proporciona datos de afiliación).',
+        standingsStep2Title: 'Subir Archivo de Resultados',
+        standingsStep2Desc: 'Sube el archivo de programación con los marcadores completados (columnas p1 y p2).',
+        standingsStep3Title: 'Generar Posiciones',
+        generateStandings: 'Generar Posiciones',
+        printStandings: '⎙ Imprimir',
+        downloadStandings: '↓ Descargar',
+        standingsPrintTitle: 'Tabla de Posiciones',
+        skippedMatches: '{0} partido(s) omitido(s) (marcadores vacíos)',
+        tieError: 'Error: Empate detectado en partido {0} ({1} vs {2}). Los empates no están permitidos.',
+        
+        // Standings Columns
+        standColPos: 'Pos',
+        standColTeam: 'Equipo',
+        standColCity: 'Ciudad',
+        standColPlayed: 'Asaltos Jugados',
+        standColWon: 'Asaltos Ganados',
+        standColWinPct: '% Victoria',
+        standColFor: 'Puntos a Favor',
+        standColAgainst: 'Puntos en Contra',
+        standColDiff: 'Diferencia',
+        
+        standingsFileName: 'Tabla_de_Posiciones.xlsx',
+        
+        // File Status
+        fileLoaded: '{0} cargado ({1} equipos)',
+        resultsLoaded: '{0} cargado ({1} partidos)'
+      }
+    };
+
+    // ============================================================
+    // STATE
+    // ============================================================
+    let currentLang = 'en';
+    let teamsData = null;
+    let standingsTeamsData = null;
+    let resultsData = null;
+    let generatedSchedule = null;
+    let generatedStandings = null;
+
+    // ============================================================
+    // LANGUAGE FUNCTIONS
+    // ============================================================
+    function t(key, ...args) {
+      let str = translations[currentLang][key] || translations['en'][key] || key;
+      args.forEach((arg, i) => {
+        str = str.replace(`{${i}}`, arg);
+      });
+      return str;
+    }
+
+    function setLang(lang) {
+      currentLang = lang;
+      
+      // Update lang buttons
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      
+      // Update all static text
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        el.textContent = t(key);
+      });
+      
+      // Update slider values
+      updateSliderDisplays();
+      
+      // Update courts hint
+      updateCourtsHint();
+      
+      // Re-render previews if data exists
+      if (generatedSchedule) {
+        renderSchedulePreview();
+      }
+      if (generatedStandings) {
+        renderStandingsPreview();
+      }
+    }
+
+    // ============================================================
+    // UI HELPERS
+    // ============================================================
+    function updateSliderDisplays() {
+      const duration = document.getElementById('durationSlider').value;
+      const gap = document.getElementById('gapSlider').value;
+      document.getElementById('durationValue').textContent = `${duration} min`;
+      document.getElementById('gapValue').textContent = `${gap} min`;
+    }
+
+    function updateCourtsHint() {
+      const hint = document.getElementById('courtsHint');
+      if (teamsData && teamsData.length > 0) {
+        const maxNeeded = Math.floor(teamsData.length / 2);
+        hint.textContent = t('courtsHintValue', maxNeeded);
+      } else {
+        hint.textContent = t('courtsHint');
+      }
+    }
+
+    function updateGenerateButton() {
+      const btn = document.getElementById('generateScheduleBtn');
+      btn.disabled = !teamsData || teamsData.length < 2;
+    }
+
+    function updateStandingsButton() {
+      const btn = document.getElementById('generateStandingsBtn');
+      btn.disabled = !standingsTeamsData || !resultsData;
+    }
+
+    // ============================================================
+    // FILE READING
+    // ============================================================
+    function readExcelFile(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const json = XLSX.utils.sheet_to_json(firstSheet);
+            resolve(json);
+          } catch (err) {
+            reject(err);
+          }
+        };
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+      });
+    }
+
+    // ============================================================
+    // TEMPLATE DOWNLOAD
+    // ============================================================
+    function downloadTemplate() {
+      const data = [
+        { [t('templateColTeam')]: 'Team A', [t('templateColAffiliation')]: 'City A' },
+        { [t('templateColTeam')]: 'Team B', [t('templateColAffiliation')]: 'City B' },
+        { [t('templateColTeam')]: 'Team C', [t('templateColAffiliation')]: 'City C' }
+      ];
+      
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Teams');
+      XLSX.writeFile(wb, t('templateFileName'));
+    }
+
+    // ============================================================
+    // SCHEDULE GENERATION
+    // ============================================================
+    function generateRoundRobin(teams) {
+      const n = teams.length;
+      const isOdd = n % 2 === 1;
+      const participants = isOdd ? [...teams, null] : [...teams];
+      const numParticipants = participants.length;
+      const rounds = numParticipants - 1;
+      const matchesPerRound = numParticipants / 2;
+      
+      const schedule = [];
+      
+      for (let round = 0; round < rounds; round++) {
+        for (let i = 0; i < matchesPerRound; i++) {
+          const home = participants[i];
+          const away = participants[numParticipants - 1 - i];
+          
+          // Skip bye matches
+          if (home !== null && away !== null) {
+            schedule.push({
+              round: round + 1,
+              team1: home,
+              team2: away
+            });
+          }
+        }
+        
+        // Rotate: first position fixed, others rotate clockwise
+        const last = participants.pop();
+        participants.splice(1, 0, last);
+      }
+      
+      return { schedule, rounds };
+    }
+
+    function assignTimesAndCourts(matches, numCourts, startTime, duration, gap) {
+      const [startHour, startMin] = startTime.split(':').map(Number);
+      const startMinutes = startHour * 60 + startMin;
+      const slotLength = duration + gap;
+      
+      // Track next available time for each court
+      const courtNextTime = Array(numCourts).fill(startMinutes);
+      
+      // Track when each team is busy: { teamName: [endTime1, endTime2, ...] }
+      const teamBusy = {};
+      
+      const assigned = [];
+      const deferred = [];
+      
+      // Helper: check if team is free at given time
+      function isTeamFree(team, time) {
+        if (!teamBusy[team]) return true;
+        return !teamBusy[team].some(([start, end]) => time < end && time + duration > start);
+      }
+      
+      // Helper: mark team as busy
+      function markBusy(team, time) {
+        if (!teamBusy[team]) teamBusy[team] = [];
+        teamBusy[team].push([time, time + duration]);
+      }
+      
+      // Helper: format time
+      function formatTime(totalMinutes) {
+        const h = Math.floor(totalMinutes / 60);
+        const m = totalMinutes % 60;
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+      }
+      
+      // First pass: try to assign each match
+      for (const match of matches) {
+        let assigned_flag = false;
+        
+        // Find court with earliest available time where both teams are free
+        const courtsByTime = courtNextTime
+          .map((time, idx) => ({ court: idx, time }))
+          .sort((a, b) => a.time - b.time);
+        
+        for (const { court, time } of courtsByTime) {
+          if (isTeamFree(match.team1, time) && isTeamFree(match.team2, time)) {
+            assigned.push({
+              ...match,
+              court: court + 1,
+              time: time,
+              timeStr: formatTime(time)
+            });
+            markBusy(match.team1, time);
+            markBusy(match.team2, time);
+            courtNextTime[court] = time + slotLength;
+            assigned_flag = true;
+            break;
+          }
+        }
+        
+        if (!assigned_flag) {
+          deferred.push(match);
+        }
+      }
+      
+      // Retry deferred matches
+      let attempts = 0;
+      const maxAttempts = matches.length * 10;
+      
+      while (deferred.length > 0 && attempts < maxAttempts) {
+        const match = deferred.shift();
+        let assigned_flag = false;
+        
+        const courtsByTime = courtNextTime
+          .map((time, idx) => ({ court: idx, time }))
+          .sort((a, b) => a.time - b.time);
+        
+        for (const { court, time } of courtsByTime) {
+          if (isTeamFree(match.team1, time) && isTeamFree(match.team2, time)) {
+            assigned.push({
+              ...match,
+              court: court + 1,
+              time: time,
+              timeStr: formatTime(time)
+            });
+            markBusy(match.team1, time);
+            markBusy(match.team2, time);
+            courtNextTime[court] = time + slotLength;
+            assigned_flag = true;
+            break;
+          }
+        }
+        
+        if (!assigned_flag) {
+          deferred.push(match);
+        }
+        
+        attempts++;
+      }
+      
+      // Force-assign any remaining (edge cases)
+      for (const match of deferred) {
+        const minCourtIdx = courtNextTime.indexOf(Math.min(...courtNextTime));
+        const time = courtNextTime[minCourtIdx];
+        
+        assigned.push({
+          ...match,
+          court: minCourtIdx + 1,
+          time: time,
+          timeStr: formatTime(time)
+        });
+        courtNextTime[minCourtIdx] = time + slotLength;
+      }
+      
+      // Sort by time, then court
+      assigned.sort((a, b) => a.time - b.time || a.court - b.court);
+      
+      // Add match numbers
+      assigned.forEach((m, i) => m.matchNum = i + 1);
+      
+      // Calculate finish time
+      const lastMatch = assigned[assigned.length - 1];
+      const finishMinutes = lastMatch.time + duration;
+      const finishTime = formatTime(finishMinutes);
+      
+      return { matches: assigned, finishTime };
+    }
+
+    function generateSchedule() {
+      if (!teamsData || teamsData.length < 2) return;
+      
+      // Get team names (handle both EN and ES column names)
+      const teamCol = teamsData[0].hasOwnProperty('Team') ? 'Team' : 'Equipo';
+      const teams = teamsData.map(row => row[teamCol]).filter(Boolean);
+      
+      // Get config
+      const numCourts = parseInt(document.getElementById('courtsValue').textContent);
+      const startTime = document.getElementById('startTime').value;
+      const duration = parseInt(document.getElementById('durationSlider').value);
+      const gap = parseInt(document.getElementById('gapSlider').value);
+      
+      // Generate round-robin
+      const { schedule, rounds } = generateRoundRobin(teams);
+      
+      // Assign times and courts
+      const { matches, finishTime } = assignTimesAndCourts(schedule, numCourts, startTime, duration, gap);
+      
+      // Store for download
+      generatedSchedule = matches;
+      
+      // Update summary
+      document.getElementById('summaryTeams').textContent = teams.length;
+      document.getElementById('summaryMatches').textContent = matches.length;
+      document.getElementById('summaryRounds').textContent = rounds;
+      document.getElementById('summaryFinish').textContent = finishTime;
+      document.getElementById('scheduleSummary').classList.remove('hidden');
+      
+      // Render preview
+      renderSchedulePreview();
+      document.getElementById('schedulePreview').classList.remove('hidden');
+    }
+
+    function renderSchedulePreview() {
+      if (!generatedSchedule) return;
+      
+      const thead = document.querySelector('#scheduleTable thead');
+      const tbody = document.querySelector('#scheduleTable tbody');
+      
+      thead.innerHTML = `
+        <tr>
+          <th>${t('colTeam1')}</th>
+          <th>${t('colS1')}</th>
+          <th>${t('colS2')}</th>
+          <th>${t('colTeam2')}</th>
+          <th>${t('colMatchNum')}</th>
+          <th>${t('colRound')}</th>
+          <th>${t('colCourt')}</th>
+          <th>${t('colTime')}</th>
+        </tr>
+      `;
+      
+      tbody.innerHTML = generatedSchedule.map(m => `
+        <tr>
+          <td>${m.team1}</td>
+          <td></td>
+          <td></td>
+          <td>${m.team2}</td>
+          <td>${m.matchNum}</td>
+          <td>${m.round}</td>
+          <td>${m.court}</td>
+          <td>${m.timeStr}</td>
+        </tr>
+      `).join('');
+    }
+
+    function downloadSchedule() {
+      if (!generatedSchedule) return;
+      
+      const data = generatedSchedule.map(m => ({
+        [t('colTeam1')]: m.team1,
+        [t('colS1')]: '',
+        [t('colS2')]: '',
+        [t('colTeam2')]: m.team2,
+        [t('colMatchNum')]: m.matchNum,
+        [t('colRound')]: m.round,
+        [t('colCourt')]: m.court,
+        [t('colTime')]: m.timeStr
+      }));
+      
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Schedule');
+      XLSX.writeFile(wb, t('scheduleFileName'));
+    }
+
+    // ============================================================
+    // STANDINGS GENERATION
+    // ============================================================
+    function generateStandings() {
+      if (!standingsTeamsData || !resultsData) return;
+      
+      // Build affiliation map
+      const teamCol = standingsTeamsData[0].hasOwnProperty('Team') ? 'Team' : 'Equipo';
+      const affCol = standingsTeamsData[0].hasOwnProperty('Affiliation') ? 'Affiliation' : 'Afiliación';
+      
+      const affiliationMap = {};
+      standingsTeamsData.forEach(row => {
+        affiliationMap[row[teamCol]] = row[affCol] || '';
+      });
+      
+      // Detect column names in results
+      const sampleRow = resultsData[0];
+      const t1Col = sampleRow.hasOwnProperty('Team1') ? 'Team1' : 'Equipo1';
+      const t2Col = sampleRow.hasOwnProperty('Team2') ? 'Team2' : 'Equipo2';
+      const s1Col = sampleRow.hasOwnProperty('s1') ? 's1' : 'p1';
+      const s2Col = sampleRow.hasOwnProperty('s2') ? 's2' : 'p2';
+      const matchNumCol = sampleRow.hasOwnProperty('Match Number') ? 'Match Number' : 'Número de Partido';
+      
+      // Initialize standings
+      const standings = {};
+      
+      function getOrCreate(name) {
+        if (!standings[name]) {
+          standings[name] = {
+            team: name,
+            affiliation: affiliationMap[name] || '',
+            boutsPlayed: 0,
+            boutsWon: 0,
+            pointsFor: 0,
+            pointsAgainst: 0
+          };
+        }
+        return standings[name];
+      }
+      
+      let skipped = 0;
+      let errors = [];
+      
+      // Process matches
+      resultsData.forEach((row, idx) => {
+        const team1 = row[t1Col];
+        const team2 = row[t2Col];
+        const score1 = row[s1Col];
+        const score2 = row[s2Col];
+        const matchNum = row[matchNumCol] || (idx + 1);
+        
+        // Skip if scores are empty
+        if (score1 === undefined || score1 === '' || score1 === null ||
+            score2 === undefined || score2 === '' || score2 === null) {
+          skipped++;
+          return;
+        }
+        
+        const s1 = parseInt(score1);
+        const s2 = parseInt(score2);
+        
+        // Check for tie
+        if (s1 === s2) {
+          errors.push(t('tieError', matchNum, team1, team2));
+          return;
+        }
+        
+        const stats1 = getOrCreate(team1);
+        const stats2 = getOrCreate(team2);
+        
+        // Update stats
+        stats1.boutsPlayed++;
+        stats2.boutsPlayed++;
+        
+        stats1.pointsFor += s1;
+        stats1.pointsAgainst += s2;
+        stats2.pointsFor += s2;
+        stats2.pointsAgainst += s1;
+        
+        if (s1 > s2) {
+          stats1.boutsWon++;
+        } else {
+          stats2.boutsWon++;
+        }
+      });
+      
+      // Show skipped info
+      const skippedInfo = document.getElementById('skippedInfo');
+      const skippedText = document.getElementById('skippedText');
+      
+      if (skipped > 0 || errors.length > 0) {
+        let msg = [];
+        if (skipped > 0) msg.push(t('skippedMatches', skipped));
+        if (errors.length > 0) msg = msg.concat(errors);
+        skippedText.innerHTML = msg.join('<br>');
+        skippedInfo.classList.remove('hidden');
+      } else {
+        skippedInfo.classList.add('hidden');
+      }
+      
+      // Convert to array and sort
+      const standingsArray = Object.values(standings);
+      
+      standingsArray.sort((a, b) => {
+        // 1. Win % descending
+        const winPctA = a.boutsPlayed > 0 ? (a.boutsWon / a.boutsPlayed) : 0;
+        const winPctB = b.boutsPlayed > 0 ? (b.boutsWon / b.boutsPlayed) : 0;
+        if (winPctB !== winPctA) return winPctB - winPctA;
+        
+        // 2. Point differential descending
+        const diffA = a.pointsFor - a.pointsAgainst;
+        const diffB = b.pointsFor - b.pointsAgainst;
+        if (diffB !== diffA) return diffB - diffA;
+        
+        // 3. Points for descending
+        if (b.pointsFor !== a.pointsFor) return b.pointsFor - a.pointsFor;
+        
+        // 4. Points against ascending
+        return a.pointsAgainst - b.pointsAgainst;
+      });
+      
+      // Add position and calculate win %
+      standingsArray.forEach((s, i) => {
+        s.position = i + 1;
+        s.winPct = s.boutsPlayed > 0 
+          ? ((s.boutsWon / s.boutsPlayed) * 100).toFixed(1) 
+          : '0.0';
+        s.pointDiff = s.pointsFor - s.pointsAgainst;
+      });
+      
+      generatedStandings = standingsArray;
+      
+      renderStandingsPreview();
+      document.getElementById('standingsPreview').classList.remove('hidden');
+      
+      // Update print date
+      document.getElementById('printDate').textContent = new Date().toLocaleDateString();
+    }
+
+    function renderStandingsPreview() {
+      if (!generatedStandings) return;
+      
+      const thead = document.querySelector('#standingsTable thead');
+      const tbody = document.querySelector('#standingsTable tbody');
+      
+      thead.innerHTML = `
+        <tr>
+          <th>${t('standColPos')}</th>
+          <th>${t('standColTeam')}</th>
+          <th>${t('standColCity')}</th>
+          <th>${t('standColPlayed')}</th>
+          <th>${t('standColWon')}</th>
+          <th>${t('standColWinPct')}</th>
+          <th>${t('standColFor')}</th>
+          <th>${t('standColAgainst')}</th>
+          <th>${t('standColDiff')}</th>
+        </tr>
+      `;
+      
+      tbody.innerHTML = generatedStandings.map(s => `
+        <tr>
+          <td>${s.position}</td>
+          <td>${s.team}</td>
+          <td>${s.affiliation}</td>
+          <td>${s.boutsPlayed}</td>
+          <td>${s.boutsWon}</td>
+          <td>${s.winPct}%</td>
+          <td>${s.pointsFor}</td>
+          <td>${s.pointsAgainst}</td>
+          <td>${s.pointDiff > 0 ? '+' : ''}${s.pointDiff}</td>
+        </tr>
+      `).join('');
+    }
+
+    function downloadStandings() {
+      if (!generatedStandings) return;
+      
+      const data = generatedStandings.map(s => ({
+        [t('standColPos')]: s.position,
+        [t('standColTeam')]: s.team,
+        [t('standColCity')]: s.affiliation,
+        [t('standColPlayed')]: s.boutsPlayed,
+        [t('standColWon')]: s.boutsWon,
+        [t('standColWinPct')]: parseFloat(s.winPct),
+        [t('standColFor')]: s.pointsFor,
+        [t('standColAgainst')]: s.pointsAgainst,
+        [t('standColDiff')]: s.pointDiff
+      }));
+      
+      const ws = XLSX.utils.json_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Standings');
+      XLSX.writeFile(wb, t('standingsFileName'));
+    }
+
+    // ============================================================
+    // EVENT LISTENERS
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      // Language toggle
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLang(btn.dataset.lang));
+      });
+      
+      // Tab switching
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+        });
+      });
+      
+      // Template download
+      document.getElementById('downloadTemplateBtn').addEventListener('click', downloadTemplate);
+      
+      // Teams file upload (Schedule tab)
+      document.getElementById('teamsFileInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        try {
+          teamsData = await readExcelFile(file);
+          const teamCol = teamsData[0]?.hasOwnProperty('Team') ? 'Team' : 'Equipo';
+          const teamCount = teamsData.filter(r => r[teamCol]).length;
+          
+          document.getElementById('teamsFileStatus').textContent = t('fileLoaded', file.name, teamCount);
+          document.getElementById('teamsFileStatus').classList.add('has-file');
+          
+          // Show odd teams warning
+          const warning = document.getElementById('teamsWarning');
+          if (teamCount % 2 === 1) {
+            warning.classList.remove('hidden');
+          } else {
+            warning.classList.add('hidden');
+          }
+          
+          updateCourtsHint();
+          updateGenerateButton();
+        } catch (err) {
+          console.error(err);
+          teamsData = null;
+          updateGenerateButton();
+        }
+      });
+      
+      // Courts stepper
+      const courtsValue = document.getElementById('courtsValue');
+      document.getElementById('courtsDecrease').addEventListener('click', () => {
+        const val = parseInt(courtsValue.textContent);
+        if (val > 1) courtsValue.textContent = val - 1;
+      });
+      document.getElementById('courtsIncrease').addEventListener('click', () => {
+        const val = parseInt(courtsValue.textContent);
+        courtsValue.textContent = val + 1;
+      });
+      
+      // Sliders
+      document.getElementById('durationSlider').addEventListener('input', updateSliderDisplays);
+      document.getElementById('gapSlider').addEventListener('input', updateSliderDisplays);
+      
+      // Generate schedule
+      document.getElementById('generateScheduleBtn').addEventListener('click', generateSchedule);
+      
+      // Download schedule
+      document.getElementById('downloadScheduleBtn').addEventListener('click', downloadSchedule);
+      
+      // Standings: Teams file upload
+      document.getElementById('standingsTeamsInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        try {
+          standingsTeamsData = await readExcelFile(file);
+          const teamCol = standingsTeamsData[0]?.hasOwnProperty('Team') ? 'Team' : 'Equipo';
+          const teamCount = standingsTeamsData.filter(r => r[teamCol]).length;
+          
+          document.getElementById('standingsTeamsStatus').textContent = t('fileLoaded', file.name, teamCount);
+          document.getElementById('standingsTeamsStatus').classList.add('has-file');
+          updateStandingsButton();
+        } catch (err) {
+          console.error(err);
+          standingsTeamsData = null;
+          updateStandingsButton();
+        }
+      });
+      
+      // Standings: Results file upload
+      document.getElementById('resultsFileInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        try {
+          resultsData = await readExcelFile(file);
+          const matchCount = resultsData.length;
+          
+          document.getElementById('resultsFileStatus').textContent = t('resultsLoaded', file.name, matchCount);
+          document.getElementById('resultsFileStatus').classList.add('has-file');
+          updateStandingsButton();
+        } catch (err) {
+          console.error(err);
+          resultsData = null;
+          updateStandingsButton();
+        }
+      });
+      
+      // Generate standings
+      document.getElementById('generateStandingsBtn').addEventListener('click', generateStandings);
+      
+      // Download standings
+      document.getElementById('downloadStandingsBtn').addEventListener('click', downloadStandings);
+      
+      // Print standings
+      document.getElementById('printStandingsBtn').addEventListener('click', () => window.print());
+      
+      // Initialize
+      updateSliderDisplays();
+    });
+  </script>
+</body>
+</html>

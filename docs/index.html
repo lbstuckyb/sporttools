@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPORTTOOLS — Simple tools. Direct solutions.</title>
+  <meta name="description" content="Ready-to-use sports administration tools — scheduling, rankings, management — plus the prompts to customize them.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      
+      --bg-primary: #ffffff;
+      --bg-surface: #fafafa;
+      --bg-elevated: #f5f5f5;
+      --border-light: #e8e8e8;
+      --border-medium: #d4d4d4;
+      
+      --text-primary: #0a0a0a;
+      --text-secondary: #525252;
+      --text-muted: #a3a3a3;
+      
+      --accent-use: #7c3aed;
+      --accent-use-hover: #6d28d9;
+      --accent-download: #059669;
+      --accent-download-hover: #047857;
+      --accent-prompt: #ea580c;
+      --accent-prompt-hover: #c2410c;
+      
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.25s ease;
+    }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0 24px;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--text-primary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .lang-toggle {
+      display: flex;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      color: var(--text-secondary);
+    }
+
+    .lang-btn:first-child {
+      border-right: 1px solid var(--border-medium);
+    }
+
+    .lang-btn.active {
+      background: var(--text-primary);
+      color: white;
+    }
+
+    .lang-btn:not(.active):hover {
+      background: var(--bg-elevated);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 24px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .hero-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .hero-tagline {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Main Content */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    .tool-count {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    /* Tool Card */
+    .tool-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tool-card:hover {
+      border-color: var(--border-medium);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .tool-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .tool-name {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    .tool-langs {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .lang-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 6px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+    }
+
+    .tool-description {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .tool-problem {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 10px 12px;
+      background: var(--bg-surface);
+      border-left: 3px solid var(--text-primary);
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+    }
+
+    .tool-problem-label {
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-right: 4px;
+    }
+
+    /* Features toggle */
+    .features-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 16px;
+      transition: color var(--transition-fast);
+    }
+
+    .features-toggle:hover {
+      color: var(--text-secondary);
+    }
+
+    .features-toggle svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      transition: transform var(--transition-fast);
+    }
+
+    .tool-card.expanded .features-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    /* Features content */
+    .tool-features {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows var(--transition-normal);
+    }
+
+    .tool-card.expanded .tool-features {
+      grid-template-rows: 1fr;
+    }
+
+    .tool-features-inner {
+      overflow: hidden;
+    }
+
+    .tool-features-content {
+      padding: 12px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+    }
+
+    .tool-features-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .tool-features-list {
+      list-style: none;
+    }
+
+    .tool-features-list li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .tool-features-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--text-muted);
+    }
+
+    /* Metadata */
+    .tool-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tool-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .tool-meta-item svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .tool-meta-item.rating svg {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    /* Actions */
+    .tool-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px 16px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .btn-use {
+      background: var(--accent-use);
+      color: white;
+    }
+
+    .btn-use:hover {
+      background: var(--accent-use-hover);
+    }
+
+    .btn-download {
+      background: var(--accent-download);
+      color: white;
+    }
+
+    .btn-download:hover {
+      background: var(--accent-download-hover);
+    }
+
+    .btn-prompt {
+      background: var(--accent-prompt);
+      color: white;
+    }
+
+    .btn-prompt:hover {
+      background: var(--accent-prompt-hover);
+    }
+
+    /* Coming Soon */
+    .tool-card.coming-soon {
+      opacity: 0.6;
+    }
+
+    .tool-card.coming-soon:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--border-light);
+    }
+
+    .coming-soon-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 8px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+    }
+
+    .tool-card.coming-soon .tool-actions {
+      display: none;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--text-primary);
+      color: white;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 1000;
+      opacity: 0;
+      transition: all var(--transition-normal);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .toast.error {
+      background: #dc2626;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-light);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-link:hover {
+      color: var(--text-primary);
+    }
+
+    .footer-sep {
+      color: var(--border-medium);
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 48px;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 48px 24px;
+      }
+
+      .hero-tagline {
+        font-size: 32px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-actions {
+        flex-direction: column;
+      }
+
+      .tool-meta {
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a10 10 0 0 1 0 20"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+          </svg>
+        </div>
+        <span class="logo-text">SPORTTOOLS</span>
+      </a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 class="hero-tagline" data-i18n="tagline">Simple tools. Direct solutions.</h1>
+      <p class="hero-description" data-i18n="heroDescription">Ready-to-use sports administration tools — scheduling, rankings, management — plus the prompts to customize them. Built with AI. Free to use.</p>
+    </div>
+  </section>
+
+  <main class="main">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="toolsTitle">Tools</h2>
+      <span class="tool-count" id="toolCount">—</span>
+    </div>
+    <div class="tools-grid" id="toolsGrid">
+      <div class="loading" data-i18n="loading">Loading tools...</div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2025 SPORTTOOLS</span>
+      <span class="footer-sep">·</span>
+      <a href="https://github.com/YOUR_USERNAME/sporttools" class="footer-link" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <svg viewBox="0 0 24 24" id="toastIcon"><path d="M20 6L9 17l-5-5"/></svg>
+    <span id="toastMessage"></span>
+  </div>
+
+  <script>
+    // Translations
+    const i18n = {
+      en: {
+        tagline: 'Simple tools. Direct solutions.',
+        heroDescription: 'Ready-to-use sports administration tools — scheduling, rankings, management — plus the prompts to customize them. Built with AI. Free to use.',
+        toolsTitle: 'Tools',
+        toolCount: '{0} tools',
+        use: 'Use',
+        download: 'Download',
+        prompt: 'Prompt',
+        solves: 'Solves:',
+        keyFeatures: 'Key Features',
+        showFeatures: 'Show features',
+        hideFeatures: 'Hide features',
+        comingSoon: 'Coming Soon',
+        copiedToast: 'Prompt copied to clipboard!',
+        copyError: 'Could not copy. Try right-click → Save link.',
+        loading: 'Loading tools...'
+      },
+      es: {
+        tagline: 'Herramientas simples. Soluciones directas.',
+        heroDescription: 'Herramientas listas para administración deportiva — programación, rankings, gestión — más los prompts para personalizarlas. Hechas con IA. Gratis.',
+        toolsTitle: 'Herramientas',
+        toolCount: '{0} herramientas',
+        use: 'Usar',
+        download: 'Descargar',
+        prompt: 'Prompt',
+        solves: 'Resuelve:',
+        keyFeatures: 'Características',
+        showFeatures: 'Ver características',
+        hideFeatures: 'Ocultar',
+        comingSoon: 'Próximamente',
+        copiedToast: '¡Prompt copiado!',
+        copyError: 'Error al copiar. Intenta clic derecho → Guardar.',
+        loading: 'Cargando...'
+      }
+    };
+
+    let lang = localStorage.getItem('sporttools-lang') || 'en';
+    let catalog = { tools: [] };
+
+    const t = (key, ...args) => {
+      let s = i18n[lang][key] || key;
+      args.forEach((a, i) => s = s.replace(`{${i}}`, a));
+      return s;
+    };
+
+    // Load catalog
+    async function loadCatalog() {
+      try {
+        const res = await fetch('./catalog.json');
+        if (res.ok) catalog = await res.json();
+      } catch (e) {
+        console.warn('Could not load catalog.json');
+      }
+      render();
+    }
+
+    // Render tools
+    function render() {
+      const grid = document.getElementById('toolsGrid');
+      
+      if (catalog.tools.length === 0) {
+        grid.innerHTML = `<div class="loading">${t('loading')}</div>`;
+        return;
+      }
+
+      grid.innerHTML = catalog.tools.map(tool => {
+        const isComingSoon = tool.status === 'coming-soon';
+        const name = tool.name[lang] || tool.name.en;
+        const desc = tool.description[lang] || tool.description.en;
+        const problem = tool.problem[lang] || tool.problem.en;
+        const features = tool.features[lang] || tool.features.en;
+
+        return `
+          <article class="tool-card ${isComingSoon ? 'coming-soon' : ''}" data-id="${tool.id}">
+            <div class="tool-header">
+              <h3 class="tool-name">${name}</h3>
+              <div class="tool-langs">
+                ${isComingSoon 
+                  ? `<span class="coming-soon-badge">${t('comingSoon')}</span>`
+                  : tool.languages.map(l => `<span class="lang-badge">${l}</span>`).join('')
+                }
+              </div>
+            </div>
+            
+            <p class="tool-description">${desc}</p>
+            
+            <div class="tool-problem">
+              <span class="tool-problem-label">${t('solves')}</span>${problem}
+            </div>
+            
+            <button class="features-toggle" onclick="toggleFeatures('${tool.id}')">
+              <span class="toggle-text">${t('showFeatures')}</span>
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            
+            <div class="tool-features">
+              <div class="tool-features-inner">
+                <div class="tool-features-content">
+                  <div class="tool-features-title">${t('keyFeatures')}</div>
+                  <ul class="tool-features-list">
+                    ${features.map(f => `<li>${f}</li>`).join('')}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+            <div class="tool-meta">
+              <span class="tool-meta-item">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a7.5 7.5 0 0 1 13 0"/></svg>
+                ${tool.author}
+              </span>
+              <span class="tool-meta-item">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                ${tool.dateAdded}
+              </span>
+              ${!isComingSoon && tool.downloads ? `
+                <span class="tool-meta-item">
+                  <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  ${tool.downloads.toLocaleString()}
+                </span>
+              ` : ''}
+              ${!isComingSoon && tool.rating ? `
+                <span class="tool-meta-item rating">
+                  <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  ${tool.rating.toFixed(1)}
+                </span>
+              ` : ''}
+            </div>
+            
+            ${!isComingSoon ? `
+              <div class="tool-actions">
+                <a href="./${tool.paths.page}" class="btn btn-use">
+                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  ${t('use')}
+                </a>
+                <a href="./${tool.paths.tool}" class="btn btn-download" download="${tool.id}.html">
+                  <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  ${t('download')}
+                </a>
+                <button class="btn btn-prompt" onclick="copyPrompt('${tool.paths.prompt}')">
+                  <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  ${t('prompt')}
+                </button>
+              </div>
+            ` : ''}
+          </article>
+        `;
+      }).join('');
+
+      document.getElementById('toolCount').textContent = t('toolCount', catalog.tools.length);
+    }
+
+    // Toggle features
+    function toggleFeatures(id) {
+      const card = document.querySelector(`[data-id="${id}"]`);
+      const text = card.querySelector('.toggle-text');
+      const expanded = card.classList.toggle('expanded');
+      text.textContent = expanded ? t('hideFeatures') : t('showFeatures');
+    }
+
+    // Copy prompt
+    async function copyPrompt(path) {
+      try {
+        const res = await fetch('./' + path);
+        if (!res.ok) throw new Error('Fetch failed');
+        const text = await res.text();
+        await navigator.clipboard.writeText(text);
+        showToast(t('copiedToast'));
+      } catch (e) {
+        // Fallback: open the prompt file in new tab so user can copy manually
+        window.open('./' + path, '_blank');
+        showToast(t('copyError'), true);
+      }
+    }
+
+    // Toast
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('toast');
+      const icon = document.getElementById('toastIcon');
+      document.getElementById('toastMessage').textContent = msg;
+      toast.classList.toggle('error', isError);
+      icon.innerHTML = isError 
+        ? '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>'
+        : '<path d="M20 6L9 17l-5-5"/>';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Language switch
+    function setLang(l) {
+      lang = l;
+      localStorage.setItem('sporttools-lang', l);
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+      document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+      render();
+    }
+
+    // Init
+    document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+    setLang(lang);
+    loadCatalog();
+  </script>
+</body>
+</html>

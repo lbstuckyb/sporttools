@@ -1,0 +1,35 @@
+{
+  "id": "tournament-manager",
+  "name": {
+    "en": "Tournament Manager",
+    "es": "Gestor de Torneos"
+  },
+  "description": {
+    "en": "Round-robin scheduling and standings calculator for leagues and tournaments. Excel-based workflow.",
+    "es": "Programación round-robin y calculadora de posiciones para ligas y torneos. Flujo de trabajo basado en Excel."
+  },
+  "problem": {
+    "en": "Manual scheduling & ranking calculation",
+    "es": "Programación manual y cálculo de rankings"
+  },
+  "features": {
+    "en": [
+      "Conflict-free court/time assignment",
+      "Excel-based input/output",
+      "Works offline",
+      "Bilingual interface (EN/ES)"
+    ],
+    "es": [
+      "Asignación de pistas/horarios sin conflictos",
+      "Entrada/salida basada en Excel",
+      "Funciona sin conexión",
+      "Interfaz bilingüe (EN/ES)"
+    ]
+  },
+  "languages": ["EN", "ES"],
+  "author": "SPORTTOOLS",
+  "dateAdded": "2025-01",
+  "downloads": 1247,
+  "rating": 4.8,
+  "status": "active"
+}
