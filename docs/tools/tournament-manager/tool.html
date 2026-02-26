@@ -59,12 +59,6 @@
       text-transform: uppercase;
     }
 
-    .header-controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
     .lang-toggle {
       display: flex;
       gap: 0;
@@ -93,21 +87,6 @@
     }
 
     .lang-btn:not(.active):hover {
-      background: var(--bg-tertiary);
-    }
-
-    .test-btn {
-      padding: 0.4rem 0.8rem;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      background: var(--bg);
-      border: 1px solid var(--border-dark);
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .test-btn:hover {
       background: var(--bg-tertiary);
     }
 
@@ -535,116 +514,9 @@
       display: none !important;
     }
 
-    /* Test Results Modal */
-    .test-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .test-modal-content {
-      background: var(--bg);
-      max-width: 800px;
-      max-height: 80vh;
-      width: 90%;
-      overflow: auto;
-      padding: 2rem;
-      position: relative;
-    }
-
-    .test-modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .test-modal h2 {
-      margin-bottom: 1.5rem;
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .test-result {
-      padding: 0.75rem;
-      margin-bottom: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      border-left: 3px solid;
-    }
-
-    .test-result.pass {
-      background: #f0fff0;
-      border-color: #228b22;
-    }
-
-    .test-result.fail {
-      background: #fff0f0;
-      border-color: #dc143c;
-    }
-
-    .test-summary {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      background: var(--bg-tertiary);
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-    }
-
-    /* Algorithm Stats */
-    .algo-stats {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-    }
-
-    .algo-stats h4 {
-      font-family: var(--font-display);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.5rem;
-      color: var(--text-secondary);
-    }
-
-    .algo-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 0.75rem;
-    }
-
-    .algo-stat-item {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .algo-stat-label {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .algo-stat-value {
-      font-weight: 700;
-    }
-
     /* Print Styles */
     @media print {
-      .header, .tabs, .section:not(.print-section), .btn, .no-print, .algo-stats {
+      .header, .tabs, .section:not(.print-section), .btn, .no-print {
         display: none !important;
       }
 
@@ -698,12 +570,9 @@
 <body>
   <header class="header">
     <div class="logo" data-i18n="title">Tournament Manager</div>
-    <div class="header-controls">
-      <button class="test-btn" id="runTestsBtn">Run Tests</button>
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="es">ES</button>
-      </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
     </div>
   </header>
 
@@ -824,29 +693,6 @@
             </div>
           </div>
 
-          <!-- Algorithm Stats -->
-          <div id="algoStats" class="algo-stats hidden">
-            <h4 data-i18n="algoStatsTitle">Algorithm Statistics</h4>
-            <div class="algo-stats-grid">
-              <div class="algo-stat-item">
-                <span class="algo-stat-label" data-i18n="algoRestMin">Min Rest (min)</span>
-                <span class="algo-stat-value" id="statRestMin">—</span>
-              </div>
-              <div class="algo-stat-item">
-                <span class="algo-stat-label" data-i18n="algoRestAvg">Avg Rest (min)</span>
-                <span class="algo-stat-value" id="statRestAvg">—</span>
-              </div>
-              <div class="algo-stat-item">
-                <span class="algo-stat-label" data-i18n="algoCourtBalance">Court Balance</span>
-                <span class="algo-stat-value" id="statCourtBalance">—</span>
-              </div>
-              <div class="algo-stat-item">
-                <span class="algo-stat-label" data-i18n="algoConflicts">Conflicts Resolved</span>
-                <span class="algo-stat-value" id="statConflicts">—</span>
-              </div>
-            </div>
-          </div>
-
           <!-- Preview -->
           <div id="schedulePreview" class="preview-wrapper hidden">
             <div class="preview-header">
@@ -947,16 +793,6 @@
     </div>
   </main>
 
-  <!-- Test Modal -->
-  <div id="testModal" class="test-modal hidden">
-    <div class="test-modal-content">
-      <button class="test-modal-close" id="closeTestModal">×</button>
-      <h2>Algorithm Test Results</h2>
-      <div id="testResults"></div>
-      <div id="testSummary" class="test-summary"></div>
-    </div>
-  </div>
-
   <script>
     // ============================================================
     // TRANSLATIONS
@@ -990,13 +826,6 @@
         summaryFinish: 'Finish Time',
         previewTitle: 'Preview',
         downloadSchedule: '↓ Download Schedule',
-        
-        // Algorithm Stats
-        algoStatsTitle: 'Algorithm Statistics',
-        algoRestMin: 'Min Rest (min)',
-        algoRestAvg: 'Avg Rest (min)',
-        algoCourtBalance: 'Court Balance',
-        algoConflicts: 'Conflicts Resolved',
         
         // Schedule Columns
         colTeam1: 'Team1',
@@ -1073,13 +902,6 @@
         previewTitle: 'Vista Previa',
         downloadSchedule: '↓ Descargar Programación',
         
-        // Algorithm Stats
-        algoStatsTitle: 'Estadísticas del Algoritmo',
-        algoRestMin: 'Descanso Mín (min)',
-        algoRestAvg: 'Descanso Prom (min)',
-        algoCourtBalance: 'Balance de Pistas',
-        algoConflicts: 'Conflictos Resueltos',
-        
         // Schedule Columns
         colTeam1: 'Equipo1',
         colS1: 'p1',
@@ -1137,7 +959,6 @@
     let resultsData = null;
     let generatedSchedule = null;
     let generatedStandings = null;
-    let lastAlgoStats = null;
 
     // ============================================================
     // LANGUAGE FUNCTIONS
@@ -1248,12 +1069,8 @@
     }
 
     // ============================================================
-    // IMPROVED SCHEDULING ALGORITHM
+    // SCHEDULE GENERATION
     // ============================================================
-    
-    /**
-     * Generate round-robin pairings using the circle method
-     */
     function generateRoundRobin(teams) {
       const n = teams.length;
       const isOdd = n % 2 === 1;
@@ -1287,180 +1104,49 @@
       return { schedule, rounds };
     }
 
-    /**
-     * IMPROVED: Assign times and courts with fairness constraints
-     * 
-     * Improvements over basic algorithm:
-     * 1. Minimum rest time enforcement
-     * 2. Court distribution balancing
-     * 3. Constraint-first scheduling (most constrained teams first)
-     * 4. Better conflict resolution
-     */
-    function assignTimesAndCourts(matches, numCourts, startTime, duration, gap, affiliationMap = {}) {
+    function assignTimesAndCourts(matches, numCourts, startTime, duration, gap) {
       const [startHour, startMin] = startTime.split(':').map(Number);
       const startMinutes = startHour * 60 + startMin;
       const slotLength = duration + gap;
-      const minRestTime = duration; // Minimum rest = match duration
       
-      // Track state
+      // Track next available time for each court
       const courtNextTime = Array(numCourts).fill(startMinutes);
-      const teamLastMatchEnd = {}; // When each team's last match ends
-      const teamCourtCount = {};   // How many times each team has played on each court
-      const teamBusy = {};         // Busy periods: { team: [[start, end], ...] }
       
-      // Statistics tracking
-      let conflictsResolved = 0;
-      const restTimes = [];
+      // Track when each team is busy: { teamName: [endTime1, endTime2, ...] }
+      const teamBusy = {};
       
-      // Helper functions
+      const assigned = [];
+      const deferred = [];
+      
+      // Helper: check if team is free at given time
       function isTeamFree(team, time) {
         if (!teamBusy[team]) return true;
         return !teamBusy[team].some(([start, end]) => time < end && time + duration > start);
       }
       
-      function hasEnoughRest(team, time) {
-        const lastEnd = teamLastMatchEnd[team];
-        if (lastEnd === undefined) return true;
-        const rest = time - lastEnd;
-        if (rest > 0) restTimes.push(rest);
-        return rest >= minRestTime;
-      }
-      
-      function getCourtScore(team, courtIdx) {
-        // Lower score = better (prefer courts team has used less)
-        if (!teamCourtCount[team]) return 0;
-        return teamCourtCount[team][courtIdx] || 0;
-      }
-      
-      function markBusy(team, time, courtIdx) {
+      // Helper: mark team as busy
+      function markBusy(team, time) {
         if (!teamBusy[team]) teamBusy[team] = [];
         teamBusy[team].push([time, time + duration]);
-        teamLastMatchEnd[team] = time + duration;
-        
-        if (!teamCourtCount[team]) teamCourtCount[team] = {};
-        teamCourtCount[team][courtIdx] = (teamCourtCount[team][courtIdx] || 0) + 1;
       }
       
+      // Helper: format time
       function formatTime(totalMinutes) {
         const h = Math.floor(totalMinutes / 60);
         const m = totalMinutes % 60;
         return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
       }
       
-      function canAssign(match, courtIdx, time) {
-        const { team1, team2 } = match;
-        
-        // Check basic availability
-        if (!isTeamFree(team1, time) || !isTeamFree(team2, time)) {
-          return false;
-        }
-        
-        // Check rest time
-        if (!hasEnoughRest(team1, time) || !hasEnoughRest(team2, time)) {
-          return false;
-        }
-        
-        return true;
-      }
-      
-      // Sort matches by constraint level (most constrained first)
-      // A match is more constrained if its teams appear in more matches
-      const teamMatchCount = {};
-      matches.forEach(m => {
-        teamMatchCount[m.team1] = (teamMatchCount[m.team1] || 0) + 1;
-        teamMatchCount[m.team2] = (teamMatchCount[m.team2] || 0) + 1;
-      });
-      
-      const sortedMatches = [...matches].sort((a, b) => {
-        const constraintA = teamMatchCount[a.team1] + teamMatchCount[a.team2];
-        const constraintB = teamMatchCount[b.team1] + teamMatchCount[b.team2];
-        // Higher constraint = schedule first
-        if (constraintB !== constraintA) return constraintB - constraintA;
-        // Then by round
-        return a.round - b.round;
-      });
-      
-      const assigned = [];
-      const deferred = [];
-      
-      // First pass: try to assign each match optimally
-      for (const match of sortedMatches) {
-        let bestSlot = null;
-        let bestScore = Infinity;
-        
-        // Generate candidate slots: each court's next available time
-        // plus any time slot that becomes available due to gaps
-        const candidateSlots = [];
-        
-        for (let courtIdx = 0; courtIdx < numCourts; courtIdx++) {
-          // Try the next available time for this court
-          candidateSlots.push({ court: courtIdx, time: courtNextTime[courtIdx] });
-          
-          // Also try later slots if they might have better rest time
-          for (let extraSlots = 1; extraSlots <= 3; extraSlots++) {
-            candidateSlots.push({ 
-              court: courtIdx, 
-              time: courtNextTime[courtIdx] + (extraSlots * slotLength) 
-            });
-          }
-        }
-        
-        // Evaluate each candidate
-        for (const { court, time } of candidateSlots) {
-          if (canAssign(match, court, time)) {
-            // Score this slot (lower is better)
-            let score = 0;
-            
-            // Prefer earlier times
-            score += (time - startMinutes) * 0.1;
-            
-            // Prefer balanced court usage
-            score += getCourtScore(match.team1, court) * 10;
-            score += getCourtScore(match.team2, court) * 10;
-            
-            // Slight preference for keeping rounds together
-            const roundPenalty = assigned.filter(m => m.round === match.round).length > 0 ? 0 : 5;
-            score += roundPenalty;
-            
-            if (score < bestScore) {
-              bestScore = score;
-              bestSlot = { court, time };
-            }
-          }
-        }
-        
-        if (bestSlot) {
-          const { court, time } = bestSlot;
-          assigned.push({
-            ...match,
-            court: court + 1,
-            time: time,
-            timeStr: formatTime(time)
-          });
-          markBusy(match.team1, time, court);
-          markBusy(match.team2, time, court);
-          courtNextTime[court] = Math.max(courtNextTime[court], time + slotLength);
-        } else {
-          deferred.push(match);
-          conflictsResolved++;
-        }
-      }
-      
-      // Retry deferred matches with relaxed constraints
-      let attempts = 0;
-      const maxAttempts = matches.length * 20;
-      
-      while (deferred.length > 0 && attempts < maxAttempts) {
-        const match = deferred.shift();
+      // First pass: try to assign each match
+      for (const match of matches) {
         let assigned_flag = false;
         
-        // Find the earliest possible slot across all courts
+        // Find court with earliest available time where both teams are free
         const courtsByTime = courtNextTime
           .map((time, idx) => ({ court: idx, time }))
           .sort((a, b) => a.time - b.time);
         
         for (const { court, time } of courtsByTime) {
-          // Relaxed check: only require teams are free (not rest time)
           if (isTeamFree(match.team1, time) && isTeamFree(match.team2, time)) {
             assigned.push({
               ...match,
@@ -1468,8 +1154,8 @@
               time: time,
               timeStr: formatTime(time)
             });
-            markBusy(match.team1, time, court);
-            markBusy(match.team2, time, court);
+            markBusy(match.team1, time);
+            markBusy(match.team2, time);
             courtNextTime[court] = time + slotLength;
             assigned_flag = true;
             break;
@@ -1477,23 +1163,35 @@
         }
         
         if (!assigned_flag) {
-          // Try future time slots
-          const minNextTime = Math.min(...courtNextTime);
-          for (let courtIdx = 0; courtIdx < numCourts; courtIdx++) {
-            const futureTime = minNextTime + slotLength;
-            if (isTeamFree(match.team1, futureTime) && isTeamFree(match.team2, futureTime)) {
-              assigned.push({
-                ...match,
-                court: courtIdx + 1,
-                time: futureTime,
-                timeStr: formatTime(futureTime)
-              });
-              markBusy(match.team1, futureTime, courtIdx);
-              markBusy(match.team2, futureTime, courtIdx);
-              courtNextTime[courtIdx] = futureTime + slotLength;
-              assigned_flag = true;
-              break;
-            }
+          deferred.push(match);
+        }
+      }
+      
+      // Retry deferred matches
+      let attempts = 0;
+      const maxAttempts = matches.length * 10;
+      
+      while (deferred.length > 0 && attempts < maxAttempts) {
+        const match = deferred.shift();
+        let assigned_flag = false;
+        
+        const courtsByTime = courtNextTime
+          .map((time, idx) => ({ court: idx, time }))
+          .sort((a, b) => a.time - b.time);
+        
+        for (const { court, time } of courtsByTime) {
+          if (isTeamFree(match.team1, time) && isTeamFree(match.team2, time)) {
+            assigned.push({
+              ...match,
+              court: court + 1,
+              time: time,
+              timeStr: formatTime(time)
+            });
+            markBusy(match.team1, time);
+            markBusy(match.team2, time);
+            courtNextTime[court] = time + slotLength;
+            assigned_flag = true;
+            break;
           }
         }
         
@@ -1504,7 +1202,7 @@
         attempts++;
       }
       
-      // Force-assign any remaining (should be rare)
+      // Force-assign any remaining (edge cases)
       for (const match of deferred) {
         const minCourtIdx = courtNextTime.indexOf(Math.min(...courtNextTime));
         const time = courtNextTime[minCourtIdx];
@@ -1516,7 +1214,6 @@
           timeStr: formatTime(time)
         });
         courtNextTime[minCourtIdx] = time + slotLength;
-        conflictsResolved++;
       }
       
       // Sort by time, then court
@@ -1530,29 +1227,7 @@
       const finishMinutes = lastMatch.time + duration;
       const finishTime = formatTime(finishMinutes);
       
-      // Calculate statistics
-      const courtUsage = {};
-      assigned.forEach(m => {
-        courtUsage[m.court] = (courtUsage[m.court] || 0) + 1;
-      });
-      const courtCounts = Object.values(courtUsage);
-      const courtBalance = courtCounts.length > 0 
-        ? `${Math.min(...courtCounts)}-${Math.max(...courtCounts)}`
-        : '—';
-      
-      const minRest = restTimes.length > 0 ? Math.min(...restTimes) : duration;
-      const avgRest = restTimes.length > 0 
-        ? Math.round(restTimes.reduce((a, b) => a + b, 0) / restTimes.length)
-        : duration;
-      
-      const stats = {
-        minRest,
-        avgRest,
-        courtBalance,
-        conflictsResolved
-      };
-      
-      return { matches: assigned, finishTime, stats };
+      return { matches: assigned, finishTime };
     }
 
     function generateSchedule() {
@@ -1560,13 +1235,7 @@
       
       // Get team names (handle both EN and ES column names)
       const teamCol = teamsData[0].hasOwnProperty('Team') ? 'Team' : 'Equipo';
-      const affCol = teamsData[0].hasOwnProperty('Affiliation') ? 'Affiliation' : 'Afiliación';
-      
       const teams = teamsData.map(row => row[teamCol]).filter(Boolean);
-      const affiliationMap = {};
-      teamsData.forEach(row => {
-        affiliationMap[row[teamCol]] = row[affCol] || '';
-      });
       
       // Get config
       const numCourts = parseInt(document.getElementById('courtsValue').textContent);
@@ -1578,13 +1247,10 @@
       const { schedule, rounds } = generateRoundRobin(teams);
       
       // Assign times and courts
-      const { matches, finishTime, stats } = assignTimesAndCourts(
-        schedule, numCourts, startTime, duration, gap, affiliationMap
-      );
+      const { matches, finishTime } = assignTimesAndCourts(schedule, numCourts, startTime, duration, gap);
       
       // Store for download
       generatedSchedule = matches;
-      lastAlgoStats = stats;
       
       // Update summary
       document.getElementById('summaryTeams').textContent = teams.length;
@@ -1592,13 +1258,6 @@
       document.getElementById('summaryRounds').textContent = rounds;
       document.getElementById('summaryFinish').textContent = finishTime;
       document.getElementById('scheduleSummary').classList.remove('hidden');
-      
-      // Update algorithm stats
-      document.getElementById('statRestMin').textContent = stats.minRest;
-      document.getElementById('statRestAvg').textContent = stats.avgRest;
-      document.getElementById('statCourtBalance').textContent = stats.courtBalance;
-      document.getElementById('statConflicts').textContent = stats.conflictsResolved;
-      document.getElementById('algoStats').classList.remove('hidden');
       
       // Render preview
       renderSchedulePreview();
@@ -1854,321 +1513,6 @@
     }
 
     // ============================================================
-    // TEST SUITE
-    // ============================================================
-    const TestSuite = {
-      results: [],
-      
-      assert(condition, testName, details = '') {
-        this.results.push({
-          pass: condition,
-          name: testName,
-          details: condition ? '' : details
-        });
-      },
-      
-      clear() {
-        this.results = [];
-      },
-      
-      // Test: No team plays twice at the same time
-      testNoSimultaneousMatches(schedule) {
-        const timeSlots = {};
-        let conflicts = [];
-        
-        schedule.forEach(match => {
-          const key1 = `${match.team1}-${match.time}`;
-          const key2 = `${match.team2}-${match.time}`;
-          
-          if (timeSlots[key1]) {
-            conflicts.push(`${match.team1} at ${match.timeStr}`);
-          }
-          if (timeSlots[key2]) {
-            conflicts.push(`${match.team2} at ${match.timeStr}`);
-          }
-          
-          timeSlots[key1] = true;
-          timeSlots[key2] = true;
-        });
-        
-        this.assert(
-          conflicts.length === 0,
-          'No simultaneous matches',
-          `Conflicts: ${conflicts.join(', ')}`
-        );
-      },
-      
-      // Test: All pairings are generated (round-robin completeness)
-      testRoundRobinComplete(teams, schedule) {
-        const expectedMatches = (teams.length * (teams.length - 1)) / 2;
-        const actualMatches = schedule.length;
-        
-        this.assert(
-          actualMatches === expectedMatches,
-          'Round-robin completeness',
-          `Expected ${expectedMatches} matches, got ${actualMatches}`
-        );
-        
-        // Check all pairs exist
-        const pairs = new Set();
-        schedule.forEach(m => {
-          const pair = [m.team1, m.team2].sort().join('-');
-          pairs.add(pair);
-        });
-        
-        let missingPairs = [];
-        for (let i = 0; i < teams.length; i++) {
-          for (let j = i + 1; j < teams.length; j++) {
-            const pair = [teams[i], teams[j]].sort().join('-');
-            if (!pairs.has(pair)) {
-              missingPairs.push(pair);
-            }
-          }
-        }
-        
-        this.assert(
-          missingPairs.length === 0,
-          'All team pairings exist',
-          `Missing: ${missingPairs.join(', ')}`
-        );
-      },
-      
-      // Test: Minimum rest time is respected
-      testMinimumRestTime(schedule, duration) {
-        const teamMatches = {};
-        
-        schedule.forEach(match => {
-          [match.team1, match.team2].forEach(team => {
-            if (!teamMatches[team]) teamMatches[team] = [];
-            teamMatches[team].push(match.time);
-          });
-        });
-        
-        let violations = [];
-        
-        Object.entries(teamMatches).forEach(([team, times]) => {
-          times.sort((a, b) => a - b);
-          for (let i = 1; i < times.length; i++) {
-            const rest = times[i] - (times[i-1] + duration);
-            if (rest < 0) {
-              violations.push(`${team}: overlap at ${times[i]}`);
-            }
-          }
-        });
-        
-        this.assert(
-          violations.length === 0,
-          'No overlapping matches per team',
-          `Violations: ${violations.slice(0, 3).join(', ')}${violations.length > 3 ? '...' : ''}`
-        );
-      },
-      
-      // Test: Court balance (no court used excessively more than others)
-      testCourtBalance(schedule, numCourts) {
-        const courtUsage = {};
-        schedule.forEach(m => {
-          courtUsage[m.court] = (courtUsage[m.court] || 0) + 1;
-        });
-        
-        const counts = Object.values(courtUsage);
-        const min = Math.min(...counts);
-        const max = Math.max(...counts);
-        const diff = max - min;
-        const avgPerCourt = schedule.length / numCourts;
-        const tolerance = Math.ceil(avgPerCourt * 0.5); // Allow 50% variance
-        
-        this.assert(
-          diff <= tolerance,
-          'Court usage balanced',
-          `Court usage: ${JSON.stringify(courtUsage)}, diff: ${diff}, tolerance: ${tolerance}`
-        );
-      },
-      
-      // Test: Schedule is chronologically sorted
-      testChronologicalOrder(schedule) {
-        let outOfOrder = [];
-        for (let i = 1; i < schedule.length; i++) {
-          if (schedule[i].time < schedule[i-1].time) {
-            outOfOrder.push(`Match ${i}: ${schedule[i].timeStr} before ${schedule[i-1].timeStr}`);
-          }
-        }
-        
-        this.assert(
-          outOfOrder.length === 0,
-          'Schedule chronologically sorted',
-          outOfOrder.join(', ')
-        );
-      },
-      
-      // Test: Match numbers are sequential
-      testMatchNumbersSequential(schedule) {
-        let issues = [];
-        for (let i = 0; i < schedule.length; i++) {
-          if (schedule[i].matchNum !== i + 1) {
-            issues.push(`Expected ${i + 1}, got ${schedule[i].matchNum}`);
-          }
-        }
-        
-        this.assert(
-          issues.length === 0,
-          'Match numbers sequential',
-          issues.slice(0, 3).join(', ')
-        );
-      },
-      
-      // Test: Odd teams handled correctly (one bye per round)
-      testOddTeamsHandled(teams, schedule) {
-        if (teams.length % 2 === 0) {
-          this.assert(true, 'Even teams (no bye needed)', '');
-          return;
-        }
-        
-        // With odd teams, each round should have (n-1)/2 matches
-        const matchesPerRound = (teams.length - 1) / 2;
-        const rounds = teams.length; // n rounds for n odd teams
-        
-        const roundCounts = {};
-        schedule.forEach(m => {
-          roundCounts[m.round] = (roundCounts[m.round] || 0) + 1;
-        });
-        
-        const wrongRounds = Object.entries(roundCounts)
-          .filter(([r, c]) => c !== matchesPerRound);
-        
-        this.assert(
-          wrongRounds.length === 0,
-          'Odd teams: correct matches per round',
-          `Expected ${matchesPerRound} per round. Got: ${JSON.stringify(roundCounts)}`
-        );
-      },
-      
-      // Test: Extreme case - many teams, few courts
-      testExtremeCase() {
-        const teams = Array.from({length: 16}, (_, i) => `Team${i + 1}`);
-        const { schedule } = generateRoundRobin(teams);
-        const { matches, stats } = assignTimesAndCourts(schedule, 2, '09:00', 15, 5);
-        
-        this.testNoSimultaneousMatches(matches);
-        this.testRoundRobinComplete(teams, matches);
-        
-        this.assert(
-          matches.length === (16 * 15) / 2,
-          'Extreme: 16 teams, 2 courts - all matches scheduled',
-          `Got ${matches.length} matches`
-        );
-      },
-      
-      // Test: Extreme case - many courts, few teams
-      testManyCourts() {
-        const teams = ['A', 'B', 'C', 'D'];
-        const { schedule } = generateRoundRobin(teams);
-        const { matches } = assignTimesAndCourts(schedule, 10, '09:00', 15, 5);
-        
-        this.testNoSimultaneousMatches(matches);
-        
-        // With 4 teams and 10 courts, should still work (only 2 simultaneous matches max)
-        this.assert(
-          matches.length === 6,
-          'Many courts: 4 teams, 10 courts - correct match count',
-          `Got ${matches.length} matches`
-        );
-      },
-      
-      // Test: Zero gap
-      testZeroGap() {
-        const teams = ['A', 'B', 'C', 'D', 'E', 'F'];
-        const { schedule } = generateRoundRobin(teams);
-        const { matches } = assignTimesAndCourts(schedule, 2, '09:00', 15, 0);
-        
-        this.testNoSimultaneousMatches(matches);
-        this.testMinimumRestTime(matches, 15);
-        
-        this.assert(true, 'Zero gap: schedule generated without errors', '');
-      },
-      
-      // Test: Single court stress test
-      testSingleCourt() {
-        const teams = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-        const { schedule } = generateRoundRobin(teams);
-        const { matches } = assignTimesAndCourts(schedule, 1, '09:00', 10, 5);
-        
-        this.testNoSimultaneousMatches(matches);
-        this.testRoundRobinComplete(teams, matches);
-        
-        // All matches should be sequential on single court
-        const times = matches.map(m => m.time);
-        const uniqueTimes = new Set(times);
-        
-        this.assert(
-          uniqueTimes.size === matches.length,
-          'Single court: all matches at different times',
-          `${matches.length} matches, ${uniqueTimes.size} unique times`
-        );
-      },
-      
-      // Run all tests
-      runAll() {
-        this.clear();
-        
-        console.log('Running test suite...');
-        
-        // Basic test with 6 teams, 2 courts
-        const teams6 = ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta'];
-        const { schedule: schedule6, rounds: rounds6 } = generateRoundRobin(teams6);
-        const { matches: matches6 } = assignTimesAndCourts(schedule6, 2, '09:00', 15, 5);
-        
-        this.testNoSimultaneousMatches(matches6);
-        this.testRoundRobinComplete(teams6, matches6);
-        this.testMinimumRestTime(matches6, 15);
-        this.testCourtBalance(matches6, 2);
-        this.testChronologicalOrder(matches6);
-        this.testMatchNumbersSequential(matches6);
-        
-        // Odd teams test
-        const teams5 = ['A', 'B', 'C', 'D', 'E'];
-        const { schedule: schedule5 } = generateRoundRobin(teams5);
-        const { matches: matches5 } = assignTimesAndCourts(schedule5, 2, '09:00', 15, 5);
-        
-        this.testOddTeamsHandled(teams5, matches5);
-        this.testNoSimultaneousMatches(matches5);
-        this.testRoundRobinComplete(teams5, matches5);
-        
-        // Extreme cases
-        this.testExtremeCase();
-        this.testManyCourts();
-        this.testZeroGap();
-        this.testSingleCourt();
-        
-        return this.results;
-      }
-    };
-
-    function runTests() {
-      const results = TestSuite.runAll();
-      
-      const modal = document.getElementById('testModal');
-      const resultsDiv = document.getElementById('testResults');
-      const summaryDiv = document.getElementById('testSummary');
-      
-      resultsDiv.innerHTML = results.map(r => `
-        <div class="test-result ${r.pass ? 'pass' : 'fail'}">
-          <strong>${r.pass ? '✓' : '✗'} ${r.name}</strong>
-          ${r.details ? `<br><small>${r.details}</small>` : ''}
-        </div>
-      `).join('');
-      
-      const passed = results.filter(r => r.pass).length;
-      const total = results.length;
-      
-      summaryDiv.innerHTML = `
-        <strong>Results:</strong> ${passed}/${total} tests passed
-        ${passed === total ? ' ✓ All tests passing!' : ''}
-      `;
-      
-      modal.classList.remove('hidden');
-    }
-
-    // ============================================================
     // EVENT LISTENERS
     // ============================================================
     document.addEventListener('DOMContentLoaded', () => {
@@ -2288,17 +1632,6 @@
       
       // Print standings
       document.getElementById('printStandingsBtn').addEventListener('click', () => window.print());
-      
-      // Test suite
-      document.getElementById('runTestsBtn').addEventListener('click', runTests);
-      document.getElementById('closeTestModal').addEventListener('click', () => {
-        document.getElementById('testModal').classList.add('hidden');
-      });
-      document.getElementById('testModal').addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) {
-          document.getElementById('testModal').classList.add('hidden');
-        }
-      });
       
       // Initialize
       updateSliderDisplays();
