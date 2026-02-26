@@ -10,11 +10,10 @@ Free, ready-to-use sports administration tools — scheduling, rankings, managem
 
 ## Tools
 
-| Tool | Description | Status |
-|------|-------------|--------|
+| Tool                   | Description                                     | Status |
+|------------------------|-------------------------------------------------|--------|
 | **Tournament Manager** | Round-robin scheduling and standings calculator | ✅ Available |
-| **Bracket Generator** | Single/double elimination brackets | 🔜 Coming soon |
-| **Team Roster Manager** | Player database and ID cards | 🔜 Coming soon |
+| **New Pain Points**    | New Solutions                                   | 🔜 Coming soon |
 
 ---
 
