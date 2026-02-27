@@ -59,6 +59,12 @@
       text-transform: uppercase;
     }
 
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .lang-toggle {
       display: flex;
       gap: 0;
@@ -87,6 +93,21 @@
     }
 
     .lang-btn:not(.active):hover {
+      background: var(--bg-tertiary);
+    }
+
+    .test-btn {
+      padding: 0.4rem 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      background: var(--bg);
+      border: 1px solid var(--border-dark);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .test-btn:hover {
       background: var(--bg-tertiary);
     }
 
@@ -226,6 +247,11 @@
       background: var(--bg-tertiary);
     }
 
+    .btn-small {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.75rem;
+    }
+
     /* File Upload */
     .file-upload {
       display: flex;
@@ -261,6 +287,74 @@
     .file-status.has-file {
       border-style: solid;
       color: var(--text-primary);
+    }
+
+    /* Algorithm Toggle */
+    .algo-toggle-wrapper {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .algo-toggle-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .algo-toggle {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border-dark);
+      width: fit-content;
+    }
+
+    .algo-option {
+      padding: 0.6rem 1.25rem;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--bg);
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .algo-option:first-child {
+      border-right: 1px solid var(--border-dark);
+    }
+
+    .algo-option.active {
+      background: var(--interactive);
+      color: white;
+    }
+
+    .algo-option:not(.active):hover {
+      background: var(--bg-tertiary);
+    }
+
+    .algo-description {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .algo-features {
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .algo-features li {
+      margin-bottom: 0.25rem;
     }
 
     /* Configuration Grid */
@@ -452,6 +546,8 @@
       padding: 0.75rem 1rem;
       background: var(--bg-tertiary);
       border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
     .preview-title {
@@ -460,6 +556,12 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-secondary);
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .preview-scroll {
@@ -509,14 +611,121 @@
       flex-wrap: wrap;
     }
 
+    /* Algorithm Stats */
+    .algo-stats {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .algo-stats h4 {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .algo-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .algo-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .algo-stat-label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .algo-stat-value {
+      font-weight: 700;
+    }
+
     /* Hidden */
     .hidden {
       display: none !important;
     }
 
+    /* Test Results Modal */
+    .test-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .test-modal-content {
+      background: var(--bg);
+      max-width: 800px;
+      max-height: 80vh;
+      width: 90%;
+      overflow: auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .test-modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .test-modal h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .test-result {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      border-left: 3px solid;
+    }
+
+    .test-result.pass {
+      background: #f0fff0;
+      border-color: #228b22;
+    }
+
+    .test-result.fail {
+      background: #fff0f0;
+      border-color: #dc143c;
+    }
+
+    .test-summary {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: var(--bg-tertiary);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+
     /* Print Styles */
     @media print {
-      .header, .tabs, .section:not(.print-section), .btn, .no-print {
+      .header, .tabs, .section:not(.print-section), .btn, .no-print, .algo-stats, .algo-toggle-wrapper {
         display: none !important;
       }
 
@@ -565,14 +774,60 @@
         color: var(--text-secondary);
       }
     }
+
+    /* Field Sheets Print Window */
+    .print-window {
+      font-family: 'Syne', Arial, sans-serif;
+    }
+
+    .print-window .field-sheet {
+      page-break-after: always;
+      padding: 2rem;
+    }
+
+    .print-window .field-sheet:last-child {
+      page-break-after: auto;
+    }
+
+    .print-window h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #000;
+      padding-bottom: 0.5rem;
+    }
+
+    .print-window table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .print-window th, .print-window td {
+      border: 1px solid #000;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .print-window th {
+      background: #f0f0f0;
+      font-weight: 600;
+    }
+
+    .print-window .score-cell {
+      width: 60px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <header class="header">
     <div class="logo" data-i18n="title">Tournament Manager</div>
-    <div class="lang-toggle">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="es">ES</button>
+    <div class="header-controls">
+      <button class="test-btn" id="runTestsBtn">Run Tests</button>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+      </div>
     </div>
   </header>
 
@@ -627,6 +882,21 @@
         </div>
 
         <div class="card">
+          <!-- Algorithm Toggle -->
+          <div class="algo-toggle-wrapper">
+            <label class="algo-toggle-label" data-i18n="scheduleMode">Schedule Mode</label>
+            <div class="algo-toggle">
+              <button class="algo-option active" data-algo="fast" data-i18n="algoFast">Fast</button>
+              <button class="algo-option" data-algo="balanced" data-i18n="algoBalanced">Balanced</button>
+            </div>
+            <p class="algo-description" id="algoDescription" data-i18n="algoFastDesc">Maximum court utilization. Schedules matches as soon as courts are free.</p>
+            <ul class="algo-features" id="algoFeatures">
+              <li data-i18n="algoFastFeature1">Courts always in use</li>
+              <li data-i18n="algoFastFeature2">Shortest total duration</li>
+              <li data-i18n="algoFastFeature3">No rest time guarantees</li>
+            </ul>
+          </div>
+
           <div class="config-grid">
             <div class="config-item">
               <label class="config-label" data-i18n="configCourts">Number of Courts</label>
@@ -693,11 +963,39 @@
             </div>
           </div>
 
+          <!-- Algorithm Stats (only for Balanced mode) -->
+          <div id="algoStats" class="algo-stats hidden">
+            <h4 data-i18n="algoStatsTitle">Algorithm Statistics</h4>
+            <div class="algo-stats-grid">
+              <div class="algo-stat-item">
+                <span class="algo-stat-label" data-i18n="algoRestMin">Min Rest (min)</span>
+                <span class="algo-stat-value" id="statRestMin">—</span>
+              </div>
+              <div class="algo-stat-item">
+                <span class="algo-stat-label" data-i18n="algoRestAvg">Avg Rest (min)</span>
+                <span class="algo-stat-value" id="statRestAvg">—</span>
+              </div>
+              <div class="algo-stat-item">
+                <span class="algo-stat-label" data-i18n="algoCourtBalance">Court Balance</span>
+                <span class="algo-stat-value" id="statCourtBalance">—</span>
+              </div>
+              <div class="algo-stat-item">
+                <span class="algo-stat-label" data-i18n="algoConflicts">Conflicts Resolved</span>
+                <span class="algo-stat-value" id="statConflicts">—</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Preview -->
           <div id="schedulePreview" class="preview-wrapper hidden">
             <div class="preview-header">
               <span class="preview-title" data-i18n="previewTitle">Preview</span>
-              <button class="btn btn-primary" id="downloadScheduleBtn" data-i18n="downloadSchedule">↓ Download Schedule</button>
+              <div class="preview-actions">
+                <button class="btn btn-secondary btn-small" id="downloadScheduleBtn" data-i18n="downloadSchedule">↓ Schedule</button>
+                <button class="btn btn-secondary btn-small" id="downloadFieldSheetsBtn" data-i18n="downloadFieldSheets">↓ Field Sheets</button>
+                <button class="btn btn-secondary btn-small" id="printFieldSheetsBtn" data-i18n="printFieldSheets">⎙ Field Sheets</button>
+                <button class="btn btn-secondary btn-small" id="downloadTeamSchedulesBtn" data-i18n="downloadTeamSchedules">↓ Team Schedules</button>
+              </div>
             </div>
             <div class="preview-scroll">
               <table class="preview-table" id="scheduleTable">
@@ -776,9 +1074,9 @@
           <div id="standingsPreview" class="preview-wrapper hidden">
             <div class="preview-header no-print">
               <span class="preview-title" data-i18n="previewTitle">Preview</span>
-              <div class="action-row">
-                <button class="btn btn-secondary" id="printStandingsBtn" data-i18n="printStandings">⎙ Print</button>
-                <button class="btn btn-primary" id="downloadStandingsBtn" data-i18n="downloadStandings">↓ Download</button>
+              <div class="preview-actions">
+                <button class="btn btn-secondary btn-small" id="printStandingsBtn" data-i18n="printStandings">⎙ Print</button>
+                <button class="btn btn-primary btn-small" id="downloadStandingsBtn" data-i18n="downloadStandings">↓ Download</button>
               </div>
             </div>
             <div class="preview-scroll">
@@ -792,6 +1090,16 @@
       </div>
     </div>
   </main>
+
+  <!-- Test Modal -->
+  <div id="testModal" class="test-modal hidden">
+    <div class="test-modal-content">
+      <button class="test-modal-close" id="closeTestModal">×</button>
+      <h2>Algorithm Test Results</h2>
+      <div id="testResults"></div>
+      <div id="testSummary" class="test-summary"></div>
+    </div>
+  </div>
 
   <script>
     // ============================================================
@@ -812,6 +1120,20 @@
         noFileSelected: 'No file selected',
         scheduleStep3Title: 'Configure Tournament',
         oddTeamsWarning: 'Odd number of teams detected. One team will have a bye each round.',
+        
+        // Algorithm Toggle
+        scheduleMode: 'Schedule Mode',
+        algoFast: 'Fast',
+        algoBalanced: 'Balanced',
+        algoFastDesc: 'Maximum court utilization. Schedules matches as soon as courts are free.',
+        algoBalancedDesc: 'Optimizes for player welfare with rest times and balanced court usage.',
+        algoFastFeature1: 'Courts always in use',
+        algoFastFeature2: 'Shortest total duration',
+        algoFastFeature3: 'No rest time guarantees',
+        algoBalancedFeature1: 'Minimum rest between matches',
+        algoBalancedFeature2: 'Balanced court distribution',
+        algoBalancedFeature3: 'Better for player welfare',
+        
         configCourts: 'Number of Courts',
         courtsHint: 'Max needed: —',
         courtsHintValue: 'Max needed: {0}',
@@ -825,7 +1147,17 @@
         summaryRounds: 'Rounds',
         summaryFinish: 'Finish Time',
         previewTitle: 'Preview',
-        downloadSchedule: '↓ Download Schedule',
+        downloadSchedule: '↓ Schedule',
+        downloadFieldSheets: '↓ Field Sheets',
+        printFieldSheets: '⎙ Field Sheets',
+        downloadTeamSchedules: '↓ Team Schedules',
+        
+        // Algorithm Stats
+        algoStatsTitle: 'Algorithm Statistics',
+        algoRestMin: 'Min Rest (min)',
+        algoRestAvg: 'Avg Rest (min)',
+        algoCourtBalance: 'Court Balance',
+        algoConflicts: 'Conflicts Resolved',
         
         // Schedule Columns
         colTeam1: 'Team1',
@@ -837,11 +1169,23 @@
         colCourt: 'Court',
         colTime: 'Match Time',
         
+        // Field Sheet
+        fieldSheetTitle: 'Court {0}',
+        fieldSheetScore1: 'Score 1',
+        fieldSheetScore2: 'Score 2',
+        
+        // Team Schedule
+        teamScheduleByTeam: 'By Team',
+        teamScheduleByCourt: 'By Court',
+        colOpponent: 'Opponent',
+        
         // Template
         templateFileName: 'teams_template.xlsx',
         templateColTeam: 'Team',
         templateColAffiliation: 'Affiliation',
         scheduleFileName: 'schedule.xlsx',
+        fieldSheetsFileName: 'field_sheets.xlsx',
+        teamSchedulesFileName: 'team_schedules.xlsx',
         
         // Standings Tab
         standingsStep1Title: 'Upload Teams File',
@@ -887,6 +1231,20 @@
         noFileSelected: 'Ningún archivo seleccionado',
         scheduleStep3Title: 'Configurar Torneo',
         oddTeamsWarning: 'Número impar de equipos detectado. Un equipo descansará cada ronda.',
+        
+        // Algorithm Toggle
+        scheduleMode: 'Modo de Programación',
+        algoFast: 'Rápido',
+        algoBalanced: 'Equilibrado',
+        algoFastDesc: 'Máxima utilización de pistas. Programa partidos tan pronto como las pistas estén libres.',
+        algoBalancedDesc: 'Optimiza el bienestar de los jugadores con tiempos de descanso y uso equilibrado de pistas.',
+        algoFastFeature1: 'Pistas siempre en uso',
+        algoFastFeature2: 'Duración total más corta',
+        algoFastFeature3: 'Sin garantías de descanso',
+        algoBalancedFeature1: 'Descanso mínimo entre partidos',
+        algoBalancedFeature2: 'Distribución equilibrada de pistas',
+        algoBalancedFeature3: 'Mejor para el bienestar del jugador',
+        
         configCourts: 'Número de Pistas',
         courtsHint: 'Máximo necesario: —',
         courtsHintValue: 'Máximo necesario: {0}',
@@ -900,7 +1258,17 @@
         summaryRounds: 'Rondas',
         summaryFinish: 'Hora de Fin',
         previewTitle: 'Vista Previa',
-        downloadSchedule: '↓ Descargar Programación',
+        downloadSchedule: '↓ Programación',
+        downloadFieldSheets: '↓ Hojas de Pista',
+        printFieldSheets: '⎙ Hojas de Pista',
+        downloadTeamSchedules: '↓ Horarios por Equipo',
+        
+        // Algorithm Stats
+        algoStatsTitle: 'Estadísticas del Algoritmo',
+        algoRestMin: 'Descanso Mín (min)',
+        algoRestAvg: 'Descanso Prom (min)',
+        algoCourtBalance: 'Balance de Pistas',
+        algoConflicts: 'Conflictos Resueltos',
         
         // Schedule Columns
         colTeam1: 'Equipo1',
@@ -912,11 +1280,23 @@
         colCourt: 'Pista',
         colTime: 'Hora del Partido',
         
+        // Field Sheet
+        fieldSheetTitle: 'Pista {0}',
+        fieldSheetScore1: 'Puntos 1',
+        fieldSheetScore2: 'Puntos 2',
+        
+        // Team Schedule
+        teamScheduleByTeam: 'Por Equipo',
+        teamScheduleByCourt: 'Por Pista',
+        colOpponent: 'Oponente',
+        
         // Template
         templateFileName: 'plantilla_equipos.xlsx',
         templateColTeam: 'Equipo',
         templateColAffiliation: 'Afiliación',
         scheduleFileName: 'programacion.xlsx',
+        fieldSheetsFileName: 'hojas_de_pista.xlsx',
+        teamSchedulesFileName: 'horarios_por_equipo.xlsx',
         
         // Standings Tab
         standingsStep1Title: 'Subir Archivo de Equipos',
@@ -954,11 +1334,14 @@
     // STATE
     // ============================================================
     let currentLang = 'en';
+    let currentAlgo = 'fast';
     let teamsData = null;
     let standingsTeamsData = null;
     let resultsData = null;
     let generatedSchedule = null;
     let generatedStandings = null;
+    let lastAlgoStats = null;
+    let numCourtsUsed = 2;
 
     // ============================================================
     // LANGUAGE FUNCTIONS
@@ -974,24 +1357,19 @@
     function setLang(lang) {
       currentLang = lang;
       
-      // Update lang buttons
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
       });
       
-      // Update all static text
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
         el.textContent = t(key);
       });
       
-      // Update slider values
       updateSliderDisplays();
-      
-      // Update courts hint
       updateCourtsHint();
+      updateAlgoDescription();
       
-      // Re-render previews if data exists
       if (generatedSchedule) {
         renderSchedulePreview();
       }
@@ -1028,6 +1406,29 @@
     function updateStandingsButton() {
       const btn = document.getElementById('generateStandingsBtn');
       btn.disabled = !standingsTeamsData || !resultsData;
+    }
+
+    function updateAlgoDescription() {
+      const desc = document.getElementById('algoDescription');
+      const features = document.getElementById('algoFeatures');
+      
+      if (currentAlgo === 'fast') {
+        desc.setAttribute('data-i18n', 'algoFastDesc');
+        desc.textContent = t('algoFastDesc');
+        features.innerHTML = `
+          <li data-i18n="algoFastFeature1">${t('algoFastFeature1')}</li>
+          <li data-i18n="algoFastFeature2">${t('algoFastFeature2')}</li>
+          <li data-i18n="algoFastFeature3">${t('algoFastFeature3')}</li>
+        `;
+      } else {
+        desc.setAttribute('data-i18n', 'algoBalancedDesc');
+        desc.textContent = t('algoBalancedDesc');
+        features.innerHTML = `
+          <li data-i18n="algoBalancedFeature1">${t('algoBalancedFeature1')}</li>
+          <li data-i18n="algoBalancedFeature2">${t('algoBalancedFeature2')}</li>
+          <li data-i18n="algoBalancedFeature3">${t('algoBalancedFeature3')}</li>
+        `;
+      }
     }
 
     // ============================================================
@@ -1069,8 +1470,9 @@
     }
 
     // ============================================================
-    // SCHEDULE GENERATION
+    // SCHEDULING ALGORITHMS
     // ============================================================
+    
     function generateRoundRobin(teams) {
       const n = teams.length;
       const isOdd = n % 2 === 1;
@@ -1086,7 +1488,6 @@
           const home = participants[i];
           const away = participants[numParticipants - 1 - i];
           
-          // Skip bye matches
           if (home !== null && away !== null) {
             schedule.push({
               round: round + 1,
@@ -1096,7 +1497,6 @@
           }
         }
         
-        // Rotate: first position fixed, others rotate clockwise
         const last = participants.pop();
         participants.splice(1, 0, last);
       }
@@ -1104,44 +1504,37 @@
       return { schedule, rounds };
     }
 
-    function assignTimesAndCourts(matches, numCourts, startTime, duration, gap) {
+    // FAST ALGORITHM: Greedy, maximum court utilization
+    function assignTimesAndCourtsFast(matches, numCourts, startTime, duration, gap) {
       const [startHour, startMin] = startTime.split(':').map(Number);
       const startMinutes = startHour * 60 + startMin;
       const slotLength = duration + gap;
       
-      // Track next available time for each court
       const courtNextTime = Array(numCourts).fill(startMinutes);
-      
-      // Track when each team is busy: { teamName: [endTime1, endTime2, ...] }
       const teamBusy = {};
       
-      const assigned = [];
-      const deferred = [];
-      
-      // Helper: check if team is free at given time
       function isTeamFree(team, time) {
         if (!teamBusy[team]) return true;
         return !teamBusy[team].some(([start, end]) => time < end && time + duration > start);
       }
       
-      // Helper: mark team as busy
       function markBusy(team, time) {
         if (!teamBusy[team]) teamBusy[team] = [];
         teamBusy[team].push([time, time + duration]);
       }
       
-      // Helper: format time
       function formatTime(totalMinutes) {
         const h = Math.floor(totalMinutes / 60);
         const m = totalMinutes % 60;
         return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
       }
       
-      // First pass: try to assign each match
+      const assigned = [];
+      const deferred = [];
+      
       for (const match of matches) {
         let assigned_flag = false;
         
-        // Find court with earliest available time where both teams are free
         const courtsByTime = courtNextTime
           .map((time, idx) => ({ court: idx, time }))
           .sort((a, b) => a.time - b.time);
@@ -1167,7 +1560,6 @@
         }
       }
       
-      // Retry deferred matches
       let attempts = 0;
       const maxAttempts = matches.length * 10;
       
@@ -1202,7 +1594,6 @@
         attempts++;
       }
       
-      // Force-assign any remaining (edge cases)
       for (const match of deferred) {
         const minCourtIdx = courtNextTime.indexOf(Math.min(...courtNextTime));
         const time = courtNextTime[minCourtIdx];
@@ -1216,50 +1607,276 @@
         courtNextTime[minCourtIdx] = time + slotLength;
       }
       
-      // Sort by time, then court
       assigned.sort((a, b) => a.time - b.time || a.court - b.court);
-      
-      // Add match numbers
       assigned.forEach((m, i) => m.matchNum = i + 1);
       
-      // Calculate finish time
       const lastMatch = assigned[assigned.length - 1];
       const finishMinutes = lastMatch.time + duration;
       const finishTime = formatTime(finishMinutes);
       
-      return { matches: assigned, finishTime };
+      return { matches: assigned, finishTime, stats: null };
+    }
+
+    // BALANCED ALGORITHM: With rest time and court balancing
+    function assignTimesAndCourtsBalanced(matches, numCourts, startTime, duration, gap) {
+      const [startHour, startMin] = startTime.split(':').map(Number);
+      const startMinutes = startHour * 60 + startMin;
+      const slotLength = duration + gap;
+      const minRestTime = duration;
+      
+      const courtNextTime = Array(numCourts).fill(startMinutes);
+      const teamLastMatchEnd = {};
+      const teamCourtCount = {};
+      const teamBusy = {};
+      
+      let conflictsResolved = 0;
+      const restTimes = [];
+      
+      function isTeamFree(team, time) {
+        if (!teamBusy[team]) return true;
+        return !teamBusy[team].some(([start, end]) => time < end && time + duration > start);
+      }
+      
+      function hasEnoughRest(team, time) {
+        const lastEnd = teamLastMatchEnd[team];
+        if (lastEnd === undefined) return true;
+        const rest = time - lastEnd;
+        if (rest > 0) restTimes.push(rest);
+        return rest >= minRestTime;
+      }
+      
+      function getCourtScore(team, courtIdx) {
+        if (!teamCourtCount[team]) return 0;
+        return teamCourtCount[team][courtIdx] || 0;
+      }
+      
+      function markBusy(team, time, courtIdx) {
+        if (!teamBusy[team]) teamBusy[team] = [];
+        teamBusy[team].push([time, time + duration]);
+        teamLastMatchEnd[team] = time + duration;
+        
+        if (!teamCourtCount[team]) teamCourtCount[team] = {};
+        teamCourtCount[team][courtIdx] = (teamCourtCount[team][courtIdx] || 0) + 1;
+      }
+      
+      function formatTime(totalMinutes) {
+        const h = Math.floor(totalMinutes / 60);
+        const m = totalMinutes % 60;
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+      }
+      
+      function canAssign(match, courtIdx, time) {
+        const { team1, team2 } = match;
+        if (!isTeamFree(team1, time) || !isTeamFree(team2, time)) return false;
+        if (!hasEnoughRest(team1, time) || !hasEnoughRest(team2, time)) return false;
+        return true;
+      }
+      
+      const teamMatchCount = {};
+      matches.forEach(m => {
+        teamMatchCount[m.team1] = (teamMatchCount[m.team1] || 0) + 1;
+        teamMatchCount[m.team2] = (teamMatchCount[m.team2] || 0) + 1;
+      });
+      
+      const sortedMatches = [...matches].sort((a, b) => {
+        const constraintA = teamMatchCount[a.team1] + teamMatchCount[a.team2];
+        const constraintB = teamMatchCount[b.team1] + teamMatchCount[b.team2];
+        if (constraintB !== constraintA) return constraintB - constraintA;
+        return a.round - b.round;
+      });
+      
+      const assigned = [];
+      const deferred = [];
+      
+      for (const match of sortedMatches) {
+        let bestSlot = null;
+        let bestScore = Infinity;
+        
+        const candidateSlots = [];
+        
+        for (let courtIdx = 0; courtIdx < numCourts; courtIdx++) {
+          candidateSlots.push({ court: courtIdx, time: courtNextTime[courtIdx] });
+          for (let extraSlots = 1; extraSlots <= 3; extraSlots++) {
+            candidateSlots.push({ 
+              court: courtIdx, 
+              time: courtNextTime[courtIdx] + (extraSlots * slotLength) 
+            });
+          }
+        }
+        
+        for (const { court, time } of candidateSlots) {
+          if (canAssign(match, court, time)) {
+            let score = 0;
+            score += (time - startMinutes) * 0.1;
+            score += getCourtScore(match.team1, court) * 10;
+            score += getCourtScore(match.team2, court) * 10;
+            
+            if (score < bestScore) {
+              bestScore = score;
+              bestSlot = { court, time };
+            }
+          }
+        }
+        
+        if (bestSlot) {
+          const { court, time } = bestSlot;
+          assigned.push({
+            ...match,
+            court: court + 1,
+            time: time,
+            timeStr: formatTime(time)
+          });
+          markBusy(match.team1, time, court);
+          markBusy(match.team2, time, court);
+          courtNextTime[court] = Math.max(courtNextTime[court], time + slotLength);
+        } else {
+          deferred.push(match);
+          conflictsResolved++;
+        }
+      }
+      
+      let attempts = 0;
+      const maxAttempts = matches.length * 20;
+      
+      while (deferred.length > 0 && attempts < maxAttempts) {
+        const match = deferred.shift();
+        let assigned_flag = false;
+        
+        const courtsByTime = courtNextTime
+          .map((time, idx) => ({ court: idx, time }))
+          .sort((a, b) => a.time - b.time);
+        
+        for (const { court, time } of courtsByTime) {
+          if (isTeamFree(match.team1, time) && isTeamFree(match.team2, time)) {
+            assigned.push({
+              ...match,
+              court: court + 1,
+              time: time,
+              timeStr: formatTime(time)
+            });
+            markBusy(match.team1, time, court);
+            markBusy(match.team2, time, court);
+            courtNextTime[court] = time + slotLength;
+            assigned_flag = true;
+            break;
+          }
+        }
+        
+        if (!assigned_flag) {
+          const minNextTime = Math.min(...courtNextTime);
+          for (let courtIdx = 0; courtIdx < numCourts; courtIdx++) {
+            const futureTime = minNextTime + slotLength;
+            if (isTeamFree(match.team1, futureTime) && isTeamFree(match.team2, futureTime)) {
+              assigned.push({
+                ...match,
+                court: courtIdx + 1,
+                time: futureTime,
+                timeStr: formatTime(futureTime)
+              });
+              markBusy(match.team1, futureTime, courtIdx);
+              markBusy(match.team2, futureTime, courtIdx);
+              courtNextTime[courtIdx] = futureTime + slotLength;
+              assigned_flag = true;
+              break;
+            }
+          }
+        }
+        
+        if (!assigned_flag) {
+          deferred.push(match);
+        }
+        
+        attempts++;
+      }
+      
+      for (const match of deferred) {
+        const minCourtIdx = courtNextTime.indexOf(Math.min(...courtNextTime));
+        const time = courtNextTime[minCourtIdx];
+        
+        assigned.push({
+          ...match,
+          court: minCourtIdx + 1,
+          time: time,
+          timeStr: formatTime(time)
+        });
+        courtNextTime[minCourtIdx] = time + slotLength;
+        conflictsResolved++;
+      }
+      
+      assigned.sort((a, b) => a.time - b.time || a.court - b.court);
+      assigned.forEach((m, i) => m.matchNum = i + 1);
+      
+      const lastMatch = assigned[assigned.length - 1];
+      const finishMinutes = lastMatch.time + duration;
+      const finishTime = formatTime(finishMinutes);
+      
+      const courtUsage = {};
+      assigned.forEach(m => {
+        courtUsage[m.court] = (courtUsage[m.court] || 0) + 1;
+      });
+      const courtCounts = Object.values(courtUsage);
+      const courtBalance = courtCounts.length > 0 
+        ? `${Math.min(...courtCounts)}-${Math.max(...courtCounts)}`
+        : '—';
+      
+      const minRest = restTimes.length > 0 ? Math.min(...restTimes) : duration;
+      const avgRest = restTimes.length > 0 
+        ? Math.round(restTimes.reduce((a, b) => a + b, 0) / restTimes.length)
+        : duration;
+      
+      const stats = {
+        minRest,
+        avgRest,
+        courtBalance,
+        conflictsResolved
+      };
+      
+      return { matches: assigned, finishTime, stats };
     }
 
     function generateSchedule() {
       if (!teamsData || teamsData.length < 2) return;
       
-      // Get team names (handle both EN and ES column names)
       const teamCol = teamsData[0].hasOwnProperty('Team') ? 'Team' : 'Equipo';
       const teams = teamsData.map(row => row[teamCol]).filter(Boolean);
       
-      // Get config
       const numCourts = parseInt(document.getElementById('courtsValue').textContent);
       const startTime = document.getElementById('startTime').value;
       const duration = parseInt(document.getElementById('durationSlider').value);
       const gap = parseInt(document.getElementById('gapSlider').value);
       
-      // Generate round-robin
+      numCourtsUsed = numCourts;
+      
       const { schedule, rounds } = generateRoundRobin(teams);
       
-      // Assign times and courts
-      const { matches, finishTime } = assignTimesAndCourts(schedule, numCourts, startTime, duration, gap);
+      let result;
+      if (currentAlgo === 'fast') {
+        result = assignTimesAndCourtsFast(schedule, numCourts, startTime, duration, gap);
+      } else {
+        result = assignTimesAndCourtsBalanced(schedule, numCourts, startTime, duration, gap);
+      }
       
-      // Store for download
+      const { matches, finishTime, stats } = result;
+      
       generatedSchedule = matches;
+      lastAlgoStats = stats;
       
-      // Update summary
       document.getElementById('summaryTeams').textContent = teams.length;
       document.getElementById('summaryMatches').textContent = matches.length;
       document.getElementById('summaryRounds').textContent = rounds;
       document.getElementById('summaryFinish').textContent = finishTime;
       document.getElementById('scheduleSummary').classList.remove('hidden');
       
-      // Render preview
+      if (stats) {
+        document.getElementById('statRestMin').textContent = stats.minRest;
+        document.getElementById('statRestAvg').textContent = stats.avgRest;
+        document.getElementById('statCourtBalance').textContent = stats.courtBalance;
+        document.getElementById('statConflicts').textContent = stats.conflictsResolved;
+        document.getElementById('algoStats').classList.remove('hidden');
+      } else {
+        document.getElementById('algoStats').classList.add('hidden');
+      }
+      
       renderSchedulePreview();
       document.getElementById('schedulePreview').classList.remove('hidden');
     }
@@ -1297,6 +1914,10 @@
       `).join('');
     }
 
+    // ============================================================
+    // DOWNLOAD FUNCTIONS
+    // ============================================================
+    
     function downloadSchedule() {
       if (!generatedSchedule) return;
       
@@ -1317,13 +1938,191 @@
       XLSX.writeFile(wb, t('scheduleFileName'));
     }
 
+    function downloadFieldSheets() {
+      if (!generatedSchedule) return;
+      
+      const wb = XLSX.utils.book_new();
+      
+      // Group matches by court
+      const matchesByCourt = {};
+      generatedSchedule.forEach(m => {
+        if (!matchesByCourt[m.court]) matchesByCourt[m.court] = [];
+        matchesByCourt[m.court].push(m);
+      });
+      
+      // Create a sheet for each court
+      Object.keys(matchesByCourt).sort((a, b) => a - b).forEach(court => {
+        const courtMatches = matchesByCourt[court];
+        const data = courtMatches.map(m => ({
+          [t('colMatchNum')]: m.matchNum,
+          [t('colTeam1')]: m.team1,
+          [t('colTeam2')]: m.team2,
+          [t('colTime')]: m.timeStr,
+          [t('colS1')]: '',
+          [t('colS2')]: ''
+        }));
+        
+        const ws = XLSX.utils.json_to_sheet(data);
+        const sheetName = t('fieldSheetTitle', court);
+        XLSX.utils.book_append_sheet(wb, ws, sheetName.substring(0, 31)); // Excel sheet name limit
+      });
+      
+      XLSX.writeFile(wb, t('fieldSheetsFileName'));
+    }
+
+    function printFieldSheets() {
+      if (!generatedSchedule) return;
+      
+      // Group matches by court
+      const matchesByCourt = {};
+      generatedSchedule.forEach(m => {
+        if (!matchesByCourt[m.court]) matchesByCourt[m.court] = [];
+        matchesByCourt[m.court].push(m);
+      });
+      
+      // Build HTML for print window
+      let html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${t('downloadFieldSheets')}</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: Arial, sans-serif; }
+            .field-sheet { page-break-after: always; padding: 2rem; }
+            .field-sheet:last-child { page-break-after: auto; }
+            h2 { font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid #000; padding-bottom: 0.5rem; }
+            table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+            th, td { border: 1px solid #000; padding: 0.5rem; text-align: left; }
+            th { background: #f0f0f0; font-weight: 600; }
+            .score-cell { width: 80px; text-align: center; }
+            @media print {
+              .field-sheet { page-break-after: always; }
+              .field-sheet:last-child { page-break-after: auto; }
+            }
+          </style>
+        </head>
+        <body>
+      `;
+      
+      Object.keys(matchesByCourt).sort((a, b) => a - b).forEach(court => {
+        const courtMatches = matchesByCourt[court];
+        html += `
+          <div class="field-sheet">
+            <h2>${t('fieldSheetTitle', court)}</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>${t('colMatchNum')}</th>
+                  <th>${t('colTeam1')}</th>
+                  <th>${t('colTeam2')}</th>
+                  <th>${t('colTime')}</th>
+                  <th class="score-cell">${t('colS1')}</th>
+                  <th class="score-cell">${t('colS2')}</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+        
+        courtMatches.forEach(m => {
+          html += `
+            <tr>
+              <td>${m.matchNum}</td>
+              <td>${m.team1}</td>
+              <td>${m.team2}</td>
+              <td>${m.timeStr}</td>
+              <td class="score-cell"></td>
+              <td class="score-cell"></td>
+            </tr>
+          `;
+        });
+        
+        html += `
+              </tbody>
+            </table>
+          </div>
+        `;
+      });
+      
+      html += `</body></html>`;
+      
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(html);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => printWindow.print(), 250);
+    }
+
+    function downloadTeamSchedules() {
+      if (!generatedSchedule) return;
+      
+      const wb = XLSX.utils.book_new();
+      
+      // Get all unique teams
+      const teams = new Set();
+      generatedSchedule.forEach(m => {
+        teams.add(m.team1);
+        teams.add(m.team2);
+      });
+      
+      // Create "By Team" sheet - one section per team
+      const byTeamData = [];
+      Array.from(teams).sort().forEach(team => {
+        const teamMatches = generatedSchedule.filter(m => m.team1 === team || m.team2 === team);
+        
+        teamMatches.forEach((m, idx) => {
+          const opponent = m.team1 === team ? m.team2 : m.team1;
+          byTeamData.push({
+            [t('colTeam1')]: idx === 0 ? team : '',
+            [t('colMatchNum')]: m.matchNum,
+            [t('colOpponent')]: opponent,
+            [t('colTime')]: m.timeStr,
+            [t('colCourt')]: m.court,
+            [t('colRound')]: m.round
+          });
+        });
+        // Add empty row between teams
+        byTeamData.push({});
+      });
+      
+      const wsByTeam = XLSX.utils.json_to_sheet(byTeamData);
+      XLSX.utils.book_append_sheet(wb, wsByTeam, t('teamScheduleByTeam').substring(0, 31));
+      
+      // Create "By Court" sheet
+      const matchesByCourt = {};
+      generatedSchedule.forEach(m => {
+        if (!matchesByCourt[m.court]) matchesByCourt[m.court] = [];
+        matchesByCourt[m.court].push(m);
+      });
+      
+      const byCourtData = [];
+      Object.keys(matchesByCourt).sort((a, b) => a - b).forEach(court => {
+        const courtMatches = matchesByCourt[court];
+        courtMatches.forEach((m, idx) => {
+          byCourtData.push({
+            [t('colCourt')]: idx === 0 ? t('fieldSheetTitle', court) : '',
+            [t('colMatchNum')]: m.matchNum,
+            [t('colTeam1')]: m.team1,
+            [t('colTeam2')]: m.team2,
+            [t('colTime')]: m.timeStr,
+            [t('colRound')]: m.round
+          });
+        });
+        byCourtData.push({});
+      });
+      
+      const wsByCourt = XLSX.utils.json_to_sheet(byCourtData);
+      XLSX.utils.book_append_sheet(wb, wsByCourt, t('teamScheduleByCourt').substring(0, 31));
+      
+      XLSX.writeFile(wb, t('teamSchedulesFileName'));
+    }
+
     // ============================================================
     // STANDINGS GENERATION
     // ============================================================
     function generateStandings() {
       if (!standingsTeamsData || !resultsData) return;
       
-      // Build affiliation map
       const teamCol = standingsTeamsData[0].hasOwnProperty('Team') ? 'Team' : 'Equipo';
       const affCol = standingsTeamsData[0].hasOwnProperty('Affiliation') ? 'Affiliation' : 'Afiliación';
       
@@ -1332,7 +2131,6 @@
         affiliationMap[row[teamCol]] = row[affCol] || '';
       });
       
-      // Detect column names in results
       const sampleRow = resultsData[0];
       const t1Col = sampleRow.hasOwnProperty('Team1') ? 'Team1' : 'Equipo1';
       const t2Col = sampleRow.hasOwnProperty('Team2') ? 'Team2' : 'Equipo2';
@@ -1340,7 +2138,6 @@
       const s2Col = sampleRow.hasOwnProperty('s2') ? 's2' : 'p2';
       const matchNumCol = sampleRow.hasOwnProperty('Match Number') ? 'Match Number' : 'Número de Partido';
       
-      // Initialize standings
       const standings = {};
       
       function getOrCreate(name) {
@@ -1360,7 +2157,6 @@
       let skipped = 0;
       let errors = [];
       
-      // Process matches
       resultsData.forEach((row, idx) => {
         const team1 = row[t1Col];
         const team2 = row[t2Col];
@@ -1368,7 +2164,6 @@
         const score2 = row[s2Col];
         const matchNum = row[matchNumCol] || (idx + 1);
         
-        // Skip if scores are empty
         if (score1 === undefined || score1 === '' || score1 === null ||
             score2 === undefined || score2 === '' || score2 === null) {
           skipped++;
@@ -1378,7 +2173,6 @@
         const s1 = parseInt(score1);
         const s2 = parseInt(score2);
         
-        // Check for tie
         if (s1 === s2) {
           errors.push(t('tieError', matchNum, team1, team2));
           return;
@@ -1387,7 +2181,6 @@
         const stats1 = getOrCreate(team1);
         const stats2 = getOrCreate(team2);
         
-        // Update stats
         stats1.boutsPlayed++;
         stats2.boutsPlayed++;
         
@@ -1403,7 +2196,6 @@
         }
       });
       
-      // Show skipped info
       const skippedInfo = document.getElementById('skippedInfo');
       const skippedText = document.getElementById('skippedText');
       
@@ -1417,28 +2209,22 @@
         skippedInfo.classList.add('hidden');
       }
       
-      // Convert to array and sort
       const standingsArray = Object.values(standings);
       
       standingsArray.sort((a, b) => {
-        // 1. Win % descending
         const winPctA = a.boutsPlayed > 0 ? (a.boutsWon / a.boutsPlayed) : 0;
         const winPctB = b.boutsPlayed > 0 ? (b.boutsWon / b.boutsPlayed) : 0;
         if (winPctB !== winPctA) return winPctB - winPctA;
         
-        // 2. Point differential descending
         const diffA = a.pointsFor - a.pointsAgainst;
         const diffB = b.pointsFor - b.pointsAgainst;
         if (diffB !== diffA) return diffB - diffA;
         
-        // 3. Points for descending
         if (b.pointsFor !== a.pointsFor) return b.pointsFor - a.pointsFor;
         
-        // 4. Points against ascending
         return a.pointsAgainst - b.pointsAgainst;
       });
       
-      // Add position and calculate win %
       standingsArray.forEach((s, i) => {
         s.position = i + 1;
         s.winPct = s.boutsPlayed > 0 
@@ -1452,7 +2238,6 @@
       renderStandingsPreview();
       document.getElementById('standingsPreview').classList.remove('hidden');
       
-      // Update print date
       document.getElementById('printDate').textContent = new Date().toLocaleDateString();
     }
 
@@ -1513,12 +2298,176 @@
     }
 
     // ============================================================
+    // TEST SUITE
+    // ============================================================
+    const TestSuite = {
+      results: [],
+      
+      assert(condition, testName, details = '') {
+        this.results.push({
+          pass: condition,
+          name: testName,
+          details: condition ? '' : details
+        });
+      },
+      
+      clear() {
+        this.results = [];
+      },
+      
+      testNoSimultaneousMatches(schedule, algoName) {
+        const timeSlots = {};
+        let conflicts = [];
+        
+        schedule.forEach(match => {
+          const key1 = `${match.team1}-${match.time}`;
+          const key2 = `${match.team2}-${match.time}`;
+          
+          if (timeSlots[key1]) conflicts.push(`${match.team1} at ${match.timeStr}`);
+          if (timeSlots[key2]) conflicts.push(`${match.team2} at ${match.timeStr}`);
+          
+          timeSlots[key1] = true;
+          timeSlots[key2] = true;
+        });
+        
+        this.assert(
+          conflicts.length === 0,
+          `[${algoName}] No simultaneous matches`,
+          `Conflicts: ${conflicts.join(', ')}`
+        );
+      },
+      
+      testRoundRobinComplete(teams, schedule, algoName) {
+        const expectedMatches = (teams.length * (teams.length - 1)) / 2;
+        
+        this.assert(
+          schedule.length === expectedMatches,
+          `[${algoName}] Round-robin completeness`,
+          `Expected ${expectedMatches}, got ${schedule.length}`
+        );
+      },
+      
+      testChronologicalOrder(schedule, algoName) {
+        let outOfOrder = [];
+        for (let i = 1; i < schedule.length; i++) {
+          if (schedule[i].time < schedule[i-1].time) {
+            outOfOrder.push(`Match ${i}`);
+          }
+        }
+        
+        this.assert(
+          outOfOrder.length === 0,
+          `[${algoName}] Chronological order`,
+          outOfOrder.join(', ')
+        );
+      },
+      
+      runAlgoTests(teams, algoFn, algoName) {
+        const { schedule } = generateRoundRobin(teams);
+        const { matches } = algoFn(schedule, 2, '09:00', 15, 5);
+        
+        this.testNoSimultaneousMatches(matches, algoName);
+        this.testRoundRobinComplete(teams, matches, algoName);
+        this.testChronologicalOrder(matches, algoName);
+      },
+      
+      runAll() {
+        this.clear();
+        
+        const teams6 = ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta'];
+        const teams5 = ['A', 'B', 'C', 'D', 'E'];
+        const teams16 = Array.from({length: 16}, (_, i) => `Team${i + 1}`);
+        
+        // Test Fast Algorithm
+        this.runAlgoTests(teams6, assignTimesAndCourtsFast, 'Fast-6teams');
+        this.runAlgoTests(teams5, assignTimesAndCourtsFast, 'Fast-5teams(odd)');
+        this.runAlgoTests(teams16, (s, c, st, d, g) => assignTimesAndCourtsFast(s, 2, st, d, g), 'Fast-16teams-2courts');
+        
+        // Test Balanced Algorithm  
+        this.runAlgoTests(teams6, assignTimesAndCourtsBalanced, 'Balanced-6teams');
+        this.runAlgoTests(teams5, assignTimesAndCourtsBalanced, 'Balanced-5teams(odd)');
+        this.runAlgoTests(teams16, (s, c, st, d, g) => assignTimesAndCourtsBalanced(s, 2, st, d, g), 'Balanced-16teams-2courts');
+        
+        // Edge cases
+        const { schedule: s4 } = generateRoundRobin(['A', 'B', 'C', 'D']);
+        const { matches: m4fast } = assignTimesAndCourtsFast(s4, 10, '09:00', 15, 5);
+        const { matches: m4bal } = assignTimesAndCourtsBalanced(s4, 10, '09:00', 15, 5);
+        
+        this.assert(m4fast.length === 6, '[Fast] Many courts edge case', `Got ${m4fast.length}`);
+        this.assert(m4bal.length === 6, '[Balanced] Many courts edge case', `Got ${m4bal.length}`);
+        
+        // Zero gap test
+        const { schedule: s6 } = generateRoundRobin(teams6);
+        const { matches: mZeroFast } = assignTimesAndCourtsFast(s6, 2, '09:00', 15, 0);
+        const { matches: mZeroBal } = assignTimesAndCourtsBalanced(s6, 2, '09:00', 15, 0);
+        
+        this.testNoSimultaneousMatches(mZeroFast, 'Fast-ZeroGap');
+        this.testNoSimultaneousMatches(mZeroBal, 'Balanced-ZeroGap');
+        
+        // Single court test
+        const { matches: mSingleFast } = assignTimesAndCourtsFast(s6, 1, '09:00', 15, 5);
+        const { matches: mSingleBal } = assignTimesAndCourtsBalanced(s6, 1, '09:00', 15, 5);
+        
+        const uniqueTimesFast = new Set(mSingleFast.map(m => m.time));
+        const uniqueTimesBal = new Set(mSingleBal.map(m => m.time));
+        
+        this.assert(
+          uniqueTimesFast.size === mSingleFast.length,
+          '[Fast] Single court - unique times',
+          `${mSingleFast.length} matches, ${uniqueTimesFast.size} times`
+        );
+        this.assert(
+          uniqueTimesBal.size === mSingleBal.length,
+          '[Balanced] Single court - unique times',
+          `${mSingleBal.length} matches, ${uniqueTimesBal.size} times`
+        );
+        
+        return this.results;
+      }
+    };
+
+    function runTests() {
+      const results = TestSuite.runAll();
+      
+      const modal = document.getElementById('testModal');
+      const resultsDiv = document.getElementById('testResults');
+      const summaryDiv = document.getElementById('testSummary');
+      
+      resultsDiv.innerHTML = results.map(r => `
+        <div class="test-result ${r.pass ? 'pass' : 'fail'}">
+          <strong>${r.pass ? '✓' : '✗'} ${r.name}</strong>
+          ${r.details ? `<br><small>${r.details}</small>` : ''}
+        </div>
+      `).join('');
+      
+      const passed = results.filter(r => r.pass).length;
+      const total = results.length;
+      
+      summaryDiv.innerHTML = `
+        <strong>Results:</strong> ${passed}/${total} tests passed
+        ${passed === total ? ' ✓ All tests passing!' : ''}
+      `;
+      
+      modal.classList.remove('hidden');
+    }
+
+    // ============================================================
     // EVENT LISTENERS
     // ============================================================
     document.addEventListener('DOMContentLoaded', () => {
       // Language toggle
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLang(btn.dataset.lang));
+      });
+      
+      // Algorithm toggle
+      document.querySelectorAll('.algo-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.algo-option').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentAlgo = btn.dataset.algo;
+          updateAlgoDescription();
+        });
       });
       
       // Tab switching
@@ -1547,7 +2496,6 @@
           document.getElementById('teamsFileStatus').textContent = t('fileLoaded', file.name, teamCount);
           document.getElementById('teamsFileStatus').classList.add('has-file');
           
-          // Show odd teams warning
           const warning = document.getElementById('teamsWarning');
           if (teamCount % 2 === 1) {
             warning.classList.remove('hidden');
@@ -1582,8 +2530,11 @@
       // Generate schedule
       document.getElementById('generateScheduleBtn').addEventListener('click', generateSchedule);
       
-      // Download schedule
+      // Download buttons
       document.getElementById('downloadScheduleBtn').addEventListener('click', downloadSchedule);
+      document.getElementById('downloadFieldSheetsBtn').addEventListener('click', downloadFieldSheets);
+      document.getElementById('printFieldSheetsBtn').addEventListener('click', printFieldSheets);
+      document.getElementById('downloadTeamSchedulesBtn').addEventListener('click', downloadTeamSchedules);
       
       // Standings: Teams file upload
       document.getElementById('standingsTeamsInput').addEventListener('change', async (e) => {
@@ -1633,8 +2584,20 @@
       // Print standings
       document.getElementById('printStandingsBtn').addEventListener('click', () => window.print());
       
+      // Test suite
+      document.getElementById('runTestsBtn').addEventListener('click', runTests);
+      document.getElementById('closeTestModal').addEventListener('click', () => {
+        document.getElementById('testModal').classList.add('hidden');
+      });
+      document.getElementById('testModal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+          document.getElementById('testModal').classList.add('hidden');
+        }
+      });
+      
       // Initialize
       updateSliderDisplays();
+      updateAlgoDescription();
     });
   </script>
 </body>
