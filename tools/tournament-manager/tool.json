@@ -2,11 +2,11 @@
   "id": "tournament-manager",
   "name": {
     "en": "Tournament Manager",
-    "es": "Gestor de Torneos"
+    "es": "Programador de Torneos"
   },
   "description": {
     "en": "Round-robin scheduling with automatic conflict-free court and time assignment. No team plays twice at the same time, no court sits empty. Includes standings calculator.",
-    "es": "Programación round-robin con asignación automática de pistas y horarios sin conflictos. Ningún equipo juega dos veces al mismo tiempo, ninguna pista queda vacía. Incluye calculadora de posiciones."
+    "es": "Programación fase de grupos con asignación automática de pistas y horarios sin conflictos. Ningún equipo juega dos veces al mismo tiempo, ninguna pista queda vacía. Incluye calculador de tabla de posiciones."
   },
   "problem": {
     "en": "Manually assigning match times and courts without conflicts is tedious and error-prone",
@@ -28,8 +28,9 @@
   },
   "languages": ["EN", "ES"],
   "author": "SPORTTOOLS",
-  "dateAdded": "2025-01",
-  "downloads": 1247,
-  "rating": 4.8,
-  "status": "active"
+  "dateAdded": "2026-01",
+  "downloads": 1,
+  "rating": 5,
+  "status": "active",
+  "createdWith": "Claude Opus 4.5"
 }

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SPORTTOOLS — Simple tools. Direct solutions.</title>
-  <meta name="description" content="Ready-to-use sports administration tools — scheduling, rankings, management — plus the prompts to customize them.">
+  <meta name="description" content="Ready-to-use tools built with AI. Community-driven.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -35,6 +35,8 @@
       --accent-download-hover: #047857;
       --accent-prompt: #ea580c;
       --accent-prompt-hover: #c2410c;
+      --accent-skill: #0a0a0a;
+      --accent-skill-hover: #262626;
       
       --radius-sm: 4px;
       --radius-md: 8px;
@@ -73,6 +75,12 @@
       justify-content: space-between;
     }
 
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
     .logo {
       display: flex;
       align-items: center;
@@ -103,6 +111,38 @@
       font-size: 20px;
       font-weight: 700;
       letter-spacing: -0.5px;
+    }
+
+    /* Navigation */
+    .nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+    }
+
+    .nav-link.active {
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
 
     .lang-toggle {
@@ -146,15 +186,15 @@
     }
 
     .hero-inner {
-      max-width: 640px;
+      max-width: 720px;
       margin: 0 auto;
     }
 
     .hero-tagline {
-      font-size: 48px;
+      font-size: 44px;
       font-weight: 700;
       letter-spacing: -1.5px;
-      line-height: 1.1;
+      line-height: 1.15;
       margin-bottom: 20px;
     }
 
@@ -162,6 +202,18 @@
       font-size: 18px;
       color: var(--text-secondary);
       line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .hero-actions {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .hero-actions span {
+      color: var(--text-secondary);
     }
 
     /* Main Content */
@@ -384,18 +436,28 @@
       stroke: none;
     }
 
+    .tool-meta-item.created-with {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 6px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+    }
+
     /* Actions */
     .tool-actions {
       display: flex;
       gap: 8px;
       margin-top: auto;
+      flex-wrap: wrap;
     }
 
     .btn {
       flex: 1;
-      padding: 10px 16px;
+      min-width: 70px;
+      padding: 10px 12px;
       font-family: var(--font-display);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -408,12 +470,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .btn svg {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       stroke: currentColor;
       stroke-width: 2;
       fill: none;
@@ -444,6 +506,15 @@
 
     .btn-prompt:hover {
       background: var(--accent-prompt-hover);
+    }
+
+    .btn-skill {
+      background: var(--accent-skill);
+      color: white;
+    }
+
+    .btn-skill:hover {
+      background: var(--accent-skill-hover);
     }
 
     /* Coming Soon */
@@ -549,16 +620,29 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+      .header-left {
+        gap: 16px;
+      }
+
+      .nav-link {
+        padding: 6px 10px;
+        font-size: 13px;
+      }
+
       .hero {
         padding: 48px 24px;
       }
 
       .hero-tagline {
-        font-size: 32px;
+        font-size: 28px;
       }
 
       .hero-description {
         font-size: 16px;
+      }
+
+      .hero-actions {
+        font-size: 12px;
       }
 
       .tools-grid {
@@ -569,8 +653,19 @@
         flex-direction: column;
       }
 
+      .btn {
+        flex: none;
+        width: 100%;
+      }
+
       .tool-meta {
         gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-text {
+        display: none;
       }
     }
   </style>
@@ -578,19 +673,27 @@
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="./" class="logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 2a10 10 0 0 1 0 20"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-          </svg>
+      <div class="header-left">
+        <a href="./" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a10 10 0 0 1 0 20"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+            </svg>
+          </div>
+          <span class="logo-text">SPORTTOOLS</span>
+        </a>
+        <nav class="nav">
+          <a href="./" class="nav-link active" data-i18n="navTools">Tools</a>
+          <a href="./about.html" class="nav-link" data-i18n="navAbout">About</a>
+        </nav>
+      </div>
+      <div class="header-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="es">ES</button>
         </div>
-        <span class="logo-text">SPORTTOOLS</span>
-      </a>
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="es">ES</button>
       </div>
     </div>
   </header>
@@ -598,7 +701,8 @@
   <section class="hero">
     <div class="hero-inner">
       <h1 class="hero-tagline" data-i18n="tagline">Simple tools. Direct solutions.</h1>
-      <p class="hero-description" data-i18n="heroDescription">Ready-to-use sports administration tools — scheduling, rankings, management — plus the prompts to customize them. Built with AI. Free to use.</p>
+      <p class="hero-description" data-i18n="heroDescription">Ready-to-use sports tools built with AI. Community-driven.</p>
+      <p class="hero-actions" data-i18n="heroActions">Use · Create · Customize · Improve · Share · Learn</p>
     </div>
   </section>
 
@@ -629,38 +733,50 @@
     // Translations
     const i18n = {
       en: {
+        navTools: 'Tools',
+        navAbout: 'About',
         tagline: 'Simple tools. Direct solutions.',
-        heroDescription: 'Ready-to-use sports administration tools — scheduling, rankings, management — plus the prompts to customize them. Built with AI. Free to use.',
+        heroDescription: 'Ready-to-use sports tools built with AI. Community-driven.',
+        heroActions: 'Use · Create · Customize · Improve · Share · Learn',
         toolsTitle: 'Tools',
         toolCount: '{0} tools',
         use: 'Use',
         download: 'Download',
         prompt: 'Prompt',
+        skill: 'AI Skill',
         solves: 'Solves:',
         keyFeatures: 'Key Features',
         showFeatures: 'Show features',
         hideFeatures: 'Hide features',
         comingSoon: 'Coming Soon',
         copiedToast: 'Prompt copied to clipboard!',
+        skillCopiedToast: 'AI Skill copied to clipboard!',
         copyError: 'Could not copy. Try right-click → Save link.',
-        loading: 'Loading tools...'
+        loading: 'Loading tools...',
+        createdWith: 'Made with {0}'
       },
       es: {
+        navTools: 'Herramientas',
+        navAbout: 'Acerca de',
         tagline: 'Herramientas simples. Soluciones directas.',
-        heroDescription: 'Herramientas listas para administración deportiva — programación, rankings, gestión — más los prompts para personalizarlas. Hechas con IA. Gratis.',
+        heroDescription: 'Herramientas listas para usar, creadas con IA. Impulsado por la comunidad.',
+        heroActions: 'Usar · Crear · Personalizar · Mejorar · Compartir · Aprender',
         toolsTitle: 'Herramientas',
         toolCount: '{0} herramientas',
         use: 'Usar',
         download: 'Descargar',
         prompt: 'Prompt',
+        skill: 'IA Skill',
         solves: 'Resuelve:',
         keyFeatures: 'Características',
         showFeatures: 'Ver características',
         hideFeatures: 'Ocultar',
         comingSoon: 'Próximamente',
         copiedToast: '¡Prompt copiado!',
+        skillCopiedToast: '¡AI Skill copiado!',
         copyError: 'Error al copiar. Intenta clic derecho → Guardar.',
-        loading: 'Cargando...'
+        loading: 'Cargando...',
+        createdWith: 'Hecho con {0}'
       }
     };
 
@@ -699,6 +815,7 @@
         const desc = tool.description[lang] || tool.description.en;
         const problem = tool.problem[lang] || tool.problem.en;
         const features = tool.features[lang] || tool.features.en;
+        const hasSkill = tool.paths && tool.paths.skill;
 
         return `
           <article class="tool-card ${isComingSoon ? 'coming-soon' : ''}" data-id="${tool.id}">
@@ -755,6 +872,12 @@
                   ${tool.rating.toFixed(1)}
                 </span>
               ` : ''}
+              ${!isComingSoon && tool.createdWith ? `
+                <span class="tool-meta-item created-with" title="${t('createdWith', tool.createdWith)}">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  ${tool.createdWith}
+                </span>
+              ` : ''}
             </div>
             
             ${!isComingSoon ? `
@@ -771,6 +894,12 @@
                   <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                   ${t('prompt')}
                 </button>
+                ${hasSkill ? `
+                  <button class="btn btn-skill" onclick="copySkill('${tool.paths.skill}')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    ${t('skill')}
+                  </button>
+                ` : ''}
               </div>
             ` : ''}
           </article>
@@ -797,7 +926,20 @@
         await navigator.clipboard.writeText(text);
         showToast(t('copiedToast'));
       } catch (e) {
-        // Fallback: open the prompt file in new tab so user can copy manually
+        window.open('./' + path, '_blank');
+        showToast(t('copyError'), true);
+      }
+    }
+
+    // Copy skill
+    async function copySkill(path) {
+      try {
+        const res = await fetch('./' + path);
+        if (!res.ok) throw new Error('Fetch failed');
+        const text = await res.text();
+        await navigator.clipboard.writeText(text);
+        showToast(t('skillCopiedToast'));
+      } catch (e) {
         window.open('./' + path, '_blank');
         showToast(t('copyError'), true);
       }

@@ -6,16 +6,23 @@
 
 ## Vision
 
-**SPORTTOOLS** is a curated marketplace of ready-to-use sports administration tools.
+**SPORTTOOLS** is a community collaborative space for sports administration tools built with AI.
 
-**Tagline:** "Simple tools. Direct solutions."
+**Tagline:** "Ready-to-use sports tools built with AI. Free. Community-driven."
+
+**Core Beliefs:**
+- The best approach for sports organizations lies in simple, modular solutions that build on each other
+- Many organizations don't need — and can't afford — heavy, all-purpose software
+- AI is transforming software: the era of bloated one-size-fits-all solutions is ending
+- One problem, one solution. Clarity over complexity.
 
 **Core Value Proposition:**
 - Getting from "good idea" to "polished, working tool" takes significant iteration time
-- SPORTTOOLS saves that time by providing battle-tested tools AND their source prompts
-- Users can either use tools directly OR customize them with the provided prompts
+- Sharing optimized solutions saves everyone that time — it's sustainable
+- Shared tools = less redundant work, fewer wasted tokens, higher quality for everyone
+- Standardization matters: building from scratch every time is wasteful and inconsistent
 
-**Philosophy:** One problem, one solution. No bloated Swiss Army knives.
+**User Actions:** Use · Create · Customize · Improve · Share · Learn
 
 ---
 
@@ -24,18 +31,20 @@
 1. **Sports administrators** — Need scheduling, rankings, roster management
 2. **Tournament organizers** — Need brackets, schedules, standings
 3. **Developers/AI users** — Want prompts to create or customize tools
+4. **Community creators** — Want to build and share solutions
 
 ---
 
 ## Core Features
 
-### Three Actions Per Tool
+### Four Actions Per Tool
 
 | Button | Color | Action |
 |--------|-------|--------|
 | **Use** | Purple (#7c3aed) | Opens tool in wrapper page with SPORTTOOLS branding |
 | **Download** | Green (#059669) | Downloads standalone HTML file |
 | **Prompt** | Orange (#ea580c) | Copies generation prompt to clipboard |
+| **AI Skill** | Black (#0a0a0a) | Downloads skill file (coming soon, not all tools) |
 
 ### Bilingual Support
 - Platform supports EN/ES toggle
@@ -46,8 +55,24 @@
 - Description
 - "Solves: [problem]" badge
 - Expandable features list (click to show)
-- Metadata: author, date, downloads, rating
+- Metadata: author, date, downloads, rating, createdWith (AI model used)
 - Action buttons
+
+---
+
+## Site Structure
+
+```
+/                    → index.html (Tools page — home)
+/about.html          → About page (vision, value, how it works, future dev)
+/tools/[id]/         → Individual tool wrapper pages
+```
+
+### About Page Sections
+1. **Our Vision** — Community collaborative space, modular solutions philosophy
+2. **Why It Matters** — Value of sharing, sustainability, standardization
+3. **How It Works** — Use, Download, Prompt, AI Skill (with explainer)
+4. **Future Development** — Community collaboration panel concept
 
 ---
 
@@ -74,16 +99,19 @@
 ```
 sporttools/
 ├── docs/                     ← GitHub Pages serves from here
-│   ├── index.html            ← Landing page
+│   ├── index.html            ← Tools page (home)
+│   ├── about.html            ← About page
+│   ├── about-content.md      ← Editable content for About page
 │   ├── catalog.json          ← Auto-generated tool catalog
 │   └── tools/                ← Copied from /tools on build
 │
 ├── tools/                    ← Source of truth
 │   └── [tool-name]/
-│       ├── tool.json         ← Metadata
+│       ├── tool.json         ← Metadata (includes createdWith)
 │       ├── index.html        ← Wrapper page (branding)
 │       ├── tool.html         ← Actual tool
-│       └── prompt.md         ← Generation prompt
+│       ├── prompt.md         ← AI prompt used to generate the tool
+│       └── skill.md          ← (Optional) AI Skill file
 │
 ├── scripts/
 │   └── build.js              ← Scans /tools → generates catalog
@@ -163,6 +191,7 @@ sporttools/
 - Use button: #7c3aed (purple)
 - Download button: #059669 (green)
 - Prompt button: #ea580c (orange)
+- AI Skill button: #0a0a0a (black)
 
 **Typography:**
 - Display: Space Grotesk (headings, UI)
@@ -229,7 +258,8 @@ sporttools/
   "dateAdded": "YYYY-MM",
   "downloads": 0,            // Placeholder (manual)
   "rating": 0.0,             // Placeholder (manual)
-  "status": "active"         // or "coming-soon"
+  "status": "active",        // or "coming-soon"
+  "createdWith": "string"    // Optional: AI model used (e.g., "Claude Opus 4.5")
 }
 ```
 
@@ -249,6 +279,7 @@ sporttools/
 - `paths.page` → `tools/[id]/` (wrapper)
 - `paths.tool` → `tools/[id]/tool.html` (download)
 - `paths.prompt` → `tools/[id]/prompt.md`
+- `paths.skill` → `tools/[id]/skill.md` (only if file exists)
 
 ---
 
@@ -260,7 +291,7 @@ sporttools/
 2. For each directory:
    - Read `tool.json`
    - Validate required fields
-   - Add paths
+   - Add paths (including skill.md if present)
    - Copy entire folder to `/docs/tools/`
 3. Sort tools (active first, then by date)
 4. Write `catalog.json`
@@ -279,12 +310,15 @@ sporttools/
 
 ## Future Roadmap
 
-### Phase 1: Foundation (Current)
+### Phase 1: Foundation ✅
 - [x] Landing page with tool catalog
 - [x] Bilingual support (EN/ES)
 - [x] Wrapper page for tools
 - [x] Build script + auto-deploy
 - [x] Documentation
+- [x] About page with vision/value/how it works
+- [x] Navigation between pages
+- [x] createdWith field for AI attribution
 
 ### Phase 2: More Tools
 - [ ] Bracket Generator
@@ -296,11 +330,14 @@ sporttools/
 - [ ] Search/filter tools
 - [ ] Category tags (Scheduling, Rankings, Admin)
 - [ ] Sport tags (General, Fencing, Soccer, etc.)
+- [ ] AI Skill files for tools
 
 ### Phase 4: Community
+- [ ] Community collaboration panel (pain points → solutions)
 - [ ] Contribution guidelines
 - [ ] Tool submission process
 - [ ] Quality review workflow
+- [ ] "Hire the talent" feature
 
 ### Phase 5: Dynamic Features (if needed)
 - [ ] Real download counts (Supabase/Firebase)
@@ -319,12 +356,15 @@ sporttools/
 
 | File | Purpose |
 |------|---------|
-| `docs/index.html` | Landing page |
+| `docs/index.html` | Tools page (home) |
+| `docs/about.html` | About page |
+| `docs/about-content.md` | Editable content for About |
 | `docs/catalog.json` | Tool data (auto-generated) |
 | `tools/[name]/tool.json` | Tool metadata |
 | `tools/[name]/index.html` | Wrapper page |
 | `tools/[name]/tool.html` | Actual tool |
 | `tools/[name]/prompt.md` | Generation prompt |
+| `tools/[name]/skill.md` | AI Skill file (optional) |
 | `scripts/build.js` | Build script |
 | `.github/workflows/deploy.yml` | CI/CD |
 | `README.md` | Setup guide |

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — SPORTTOOLS</title>
+  <meta name="description" content="Learn about SPORTTOOLS — a community collaborative space for sports administration tools built with AI.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      
+      --bg-primary: #ffffff;
+      --bg-surface: #fafafa;
+      --bg-elevated: #f5f5f5;
+      --border-light: #e8e8e8;
+      --border-medium: #d4d4d4;
+      
+      --text-primary: #0a0a0a;
+      --text-secondary: #525252;
+      --text-muted: #a3a3a3;
+      
+      --accent-use: #7c3aed;
+      --accent-download: #059669;
+      --accent-prompt: #ea580c;
+      --accent-skill: #0a0a0a;
+      
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.25s ease;
+    }
+
+    body {
+      font-family: var(--font-display);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0 24px;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--text-primary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+    }
+
+    .nav-link.active {
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lang-toggle {
+      display: flex;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      color: var(--text-secondary);
+    }
+
+    .lang-btn:first-child {
+      border-right: 1px solid var(--border-medium);
+    }
+
+    .lang-btn.active {
+      background: var(--text-primary);
+      color: white;
+    }
+
+    .lang-btn:not(.active):hover {
+      background: var(--bg-elevated);
+    }
+
+    /* Main Content */
+    .main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    .page-title {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 64px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--text-primary);
+      display: inline-block;
+    }
+
+    .section-content {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .section-content p {
+      margin-bottom: 16px;
+    }
+
+    .section-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .highlight {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* How It Works Cards */
+    .how-it-works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .action-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: all var(--transition-fast);
+    }
+
+    .action-card:hover {
+      border-color: var(--border-medium);
+      transform: translateY(-2px);
+    }
+
+    .action-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .action-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .action-icon.use { background: var(--accent-use); }
+    .action-icon.download { background: var(--accent-download); }
+    .action-icon.prompt { background: var(--accent-prompt); }
+    .action-icon.skill { background: var(--accent-skill); }
+
+    .action-card-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .action-card-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .coming-soon-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 6px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+
+    /* Skills Explainer */
+    .skills-explainer {
+      background: var(--bg-surface);
+      border-left: 3px solid var(--accent-skill);
+      padding: 16px 20px;
+      margin-top: 24px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    .skills-explainer-title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .skills-explainer-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Future Development Section */
+    .future-section {
+      background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-top: 24px;
+    }
+
+    .future-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .future-title svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-primary);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .future-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    /* Community Flow Diagram */
+    .flow-diagram {
+      position: relative;
+      padding: 24px 0;
+    }
+
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .flow-step {
+      flex: 1;
+      min-width: 120px;
+      text-align: center;
+      position: relative;
+      padding: 20px 16px;
+      background: var(--bg-primary);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-md);
+      transition: all var(--transition-normal);
+      cursor: default;
+    }
+
+    .flow-step:hover {
+      border-color: var(--text-primary);
+      transform: scale(1.05);
+    }
+
+    .flow-step-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 12px;
+      background: var(--bg-elevated);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-normal);
+    }
+
+    .flow-step:hover .flow-step-icon {
+      background: var(--text-primary);
+    }
+
+    .flow-step-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--text-primary);
+      stroke-width: 2;
+      fill: none;
+      transition: all var(--transition-normal);
+    }
+
+    .flow-step:hover .flow-step-icon svg {
+      stroke: white;
+    }
+
+    .flow-step-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .flow-step-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .flow-arrow {
+      flex-shrink: 0;
+      width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flow-arrow svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--text-muted);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .flow-footnote {
+      margin-top: 24px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .flow-footnote a {
+      color: var(--text-secondary);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 2px;
+    }
+
+    .flow-footnote a:hover {
+      color: var(--text-primary);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-light);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-link:hover {
+      color: var(--text-primary);
+    }
+
+    .footer-sep {
+      color: var(--border-medium);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-left {
+        gap: 16px;
+      }
+
+      .nav-link {
+        padding: 6px 10px;
+        font-size: 13px;
+      }
+
+      .main {
+        padding: 48px 24px 64px;
+      }
+
+      .page-title {
+        font-size: 32px;
+        margin-bottom: 32px;
+      }
+
+      .section {
+        margin-bottom: 48px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+
+      .how-it-works-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-steps {
+        flex-direction: column;
+      }
+
+      .flow-step {
+        width: 100%;
+      }
+
+      .flow-arrow {
+        transform: rotate(90deg);
+        height: 32px;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-text {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <a href="./" class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a10 10 0 0 1 0 20"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+            </svg>
+          </div>
+          <span class="logo-text">SPORTTOOLS</span>
+        </a>
+        <nav class="nav">
+          <a href="./" class="nav-link" data-i18n="navTools">Tools</a>
+          <a href="./about.html" class="nav-link active" data-i18n="navAbout">About</a>
+        </nav>
+      </div>
+      <div class="header-right">
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="es">ES</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <h1 class="page-title" data-i18n="pageTitle">About SPORTTOOLS</h1>
+
+    <!-- Vision Section -->
+    <section class="section" id="vision">
+      <h2 class="section-title" data-i18n="visionTitle">Our Vision</h2>
+      <div class="section-content" id="visionContent">
+        <!-- Content loaded from about-content.md -->
+      </div>
+    </section>
+
+    <!-- Value Section -->
+    <section class="section" id="value">
+      <h2 class="section-title" data-i18n="valueTitle">Why It Matters</h2>
+      <div class="section-content" id="valueContent">
+        <!-- Content loaded from about-content.md -->
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="howItWorks">
+      <h2 class="section-title" data-i18n="howItWorksTitle">How It Works</h2>
+      <div class="section-content" id="howItWorksIntro">
+        <!-- Content loaded from about-content.md -->
+      </div>
+      
+      <div class="how-it-works-grid">
+        <div class="action-card">
+          <div class="action-card-header">
+            <div class="action-icon use">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <span class="action-card-title" data-i18n="actionUse">Use</span>
+          </div>
+          <p class="action-card-desc" data-i18n="actionUseDesc">Run the tool directly in your browser. No installation, no signup.</p>
+        </div>
+
+        <div class="action-card">
+          <div class="action-card-header">
+            <div class="action-icon download">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <span class="action-card-title" data-i18n="actionDownload">Download</span>
+          </div>
+          <p class="action-card-desc" data-i18n="actionDownloadDesc">Get a standalone file. Works offline. Share it with your team.</p>
+        </div>
+
+        <div class="action-card">
+          <div class="action-card-header">
+            <div class="action-icon prompt">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </div>
+            <span class="action-card-title" data-i18n="actionPrompt">Prompt</span>
+          </div>
+          <p class="action-card-desc" data-i18n="actionPromptDesc">Copy the AI prompt. Customize it in your LLM. Learn how it was built.</p>
+        </div>
+
+        <div class="action-card">
+          <div class="action-card-header">
+            <div class="action-icon skill">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="action-card-title" data-i18n="actionSkill">AI Skill</span>
+            <span class="coming-soon-tag" data-i18n="comingSoon">Coming Soon</span>
+          </div>
+          <p class="action-card-desc" data-i18n="actionSkillDesc">Add the tool as a reusable skill to your AI assistant.</p>
+        </div>
+      </div>
+
+      <div class="skills-explainer">
+        <div class="skills-explainer-title" data-i18n="whatAreSkillsTitle">What are AI Skills?</div>
+        <p class="skills-explainer-text" data-i18n="whatAreSkillsText">AI Skills are reusable instruction files you can add to AI assistants like Claude. Instead of explaining what you need every time, the skill teaches the AI how to help you with specific tasks — like a permanent prompt that's always ready to use.</p>
+      </div>
+    </section>
+
+    <!-- Future Development Section -->
+    <section class="section" id="future">
+      <h2 class="section-title" data-i18n="futureTitle">Future Development</h2>
+      <div class="section-content" id="futureContent">
+        <!-- Content loaded from about-content.md -->
+      </div>
+
+      <div class="future-section">
+        <div class="future-title">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span data-i18n="communityPanelTitle">Community Collaboration Panel</span>
+        </div>
+        <p class="future-desc" data-i18n="communityPanelDesc">We're building a space where the community can share pain points, and others can create tools to solve them. Here's how it will work:</p>
+        
+        <div class="flow-diagram">
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="flow-step-icon">
+                <svg viewBox="0 0 24 24"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r="1"/><circle cx="12" cy="12" r="10"/></svg>
+              </div>
+              <div class="flow-step-title" data-i18n="flowPainPoint">Pain Point</div>
+              <div class="flow-step-desc" data-i18n="flowPainPointDesc">Share a problem</div>
+            </div>
+            
+            <div class="flow-arrow">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            
+            <div class="flow-step">
+              <div class="flow-step-icon">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div class="flow-step-title" data-i18n="flowCommunity">Community</div>
+              <div class="flow-step-desc" data-i18n="flowCommunityDesc">Creators respond</div>
+            </div>
+            
+            <div class="flow-arrow">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            
+            <div class="flow-step">
+              <div class="flow-step-icon">
+                <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              </div>
+              <div class="flow-step-title" data-i18n="flowSolution">Solution</div>
+              <div class="flow-step-desc" data-i18n="flowSolutionDesc">Tool gets built</div>
+            </div>
+            
+            <div class="flow-arrow">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            
+            <div class="flow-step">
+              <div class="flow-step-icon">
+                <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </div>
+              <div class="flow-step-title" data-i18n="flowShare">Share</div>
+              <div class="flow-step-desc" data-i18n="flowShareDesc">Everyone benefits</div>
+            </div>
+          </div>
+          
+          <p class="flow-footnote" data-i18n="flowFootnote">Liked a solution? <a href="#">Hire the talent behind it</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2025 SPORTTOOLS</span>
+      <span class="footer-sep">·</span>
+      <a href="https://github.com/YOUR_USERNAME/sporttools" class="footer-link" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    // Translations
+    const i18n = {
+      en: {
+        navTools: 'Tools',
+        navAbout: 'About',
+        pageTitle: 'About SPORTTOOLS',
+        visionTitle: 'Our Vision',
+        valueTitle: 'Why It Matters',
+        howItWorksTitle: 'How It Works',
+        futureTitle: 'Future Development',
+        actionUse: 'Use',
+        actionUseDesc: 'Run the tool directly in your browser. No installation, no signup.',
+        actionDownload: 'Download',
+        actionDownloadDesc: 'Get a standalone file. Works offline. Share it with your team.',
+        actionPrompt: 'Prompt',
+        actionPromptDesc: 'Copy the AI prompt. Customize it in your LLM. Learn how it was built.',
+        actionSkill: 'AI Skill',
+        actionSkillDesc: 'Add the tool as a reusable skill to your AI assistant.',
+        comingSoon: 'Coming Soon',
+        whatAreSkillsTitle: 'What are AI Skills?',
+        whatAreSkillsText: 'AI Skills are reusable instruction files you can add to AI assistants like Claude. Instead of explaining what you need every time, the skill teaches the AI how to help you with specific tasks — like a permanent prompt that\'s always ready to use.',
+        communityPanelTitle: 'Community Collaboration Panel',
+        communityPanelDesc: 'We\'re building a space where the community can share pain points, and others can create tools to solve them. Here\'s how it will work:',
+        flowPainPoint: 'Pain Point',
+        flowPainPointDesc: 'Share a problem',
+        flowCommunity: 'Community',
+        flowCommunityDesc: 'Creators respond',
+        flowSolution: 'Solution',
+        flowSolutionDesc: 'Tool gets built',
+        flowShare: 'Share',
+        flowShareDesc: 'Everyone benefits',
+        flowFootnote: 'Liked a solution? <a href="#">Hire the talent behind it</a>'
+      },
+      es: {
+        navTools: 'Herramientas',
+        navAbout: 'Acerca de',
+        pageTitle: 'Acerca de SPORTTOOLS',
+        visionTitle: 'Nuestra Visión',
+        valueTitle: 'Por Qué Importa',
+        howItWorksTitle: 'Cómo Funciona',
+        futureTitle: 'Desarrollo Futuro',
+        actionUse: 'Usar',
+        actionUseDesc: 'Ejecuta la herramienta directamente en tu navegador. Sin instalación, sin registro.',
+        actionDownload: 'Descargar',
+        actionDownloadDesc: 'Obtén un archivo independiente. Funciona sin conexión. Compártelo con tu equipo.',
+        actionPrompt: 'Prompt',
+        actionPromptDesc: 'Copia el prompt de IA. Personalízalo en tu LLM. Aprende cómo fue construido.',
+        actionSkill: 'IA Skill',
+        actionSkillDesc: 'Añade la herramienta como una habilidad reutilizable a tu asistente de IA.',
+        comingSoon: 'Próximamente',
+        whatAreSkillsTitle: '¿Qué son las AI Skills?',
+        whatAreSkillsText: 'Las AI Skills son archivos de instrucciones reutilizables que puedes añadir a asistentes de IA como Claude. En lugar de explicar lo que necesitas cada vez, la skill enseña a la IA cómo ayudarte con tareas específicas — como un prompt permanente que siempre está listo para usar.',
+        communityPanelTitle: 'Panel de Colaboración Comunitaria',
+        communityPanelDesc: 'Estamos construyendo un espacio donde la comunidad puede compartir problemas, y otros pueden crear herramientas para resolverlos. Así es como funcionará:',
+        flowPainPoint: 'Problema',
+        flowPainPointDesc: 'Comparte un problema',
+        flowCommunity: 'Comunidad',
+        flowCommunityDesc: 'Creadores responden',
+        flowSolution: 'Solución',
+        flowSolutionDesc: 'Se construye la herramienta',
+        flowShare: 'Compartir',
+        flowShareDesc: 'Todos se benefician',
+        flowFootnote: '¿Te gustó una solución? <a href="#">Contrata al talento detrás de ella</a>'
+      }
+    };
+
+    // Content from markdown (would be loaded from about-content.md in production)
+    const content = {
+      en: {
+        vision: `<p><span class="highlight">SPORTTOOLS is a community collaborative space</span> for sports administration tools built with AI.</p>
+<p>We believe the best approach for sports organizations lies in <span class="highlight">simple, modular solutions</span> that can build on each other. Many organizations don't need — or can't afford — heavy, all-purpose software. The future is lightweight, flexible tools you can add or remove based on your actual needs.</p>
+<p>AI is transforming how software gets built. The era of one-size-fits-all, all included solutions is ending. What remains is clarity: one problem, one solution.</p>`,
+        value: `<p>Getting from a good idea to a polished, working tool takes <span class="highlight">significant iteration time</span>. Every prompt needs refinement. Every edge case needs handling. Every interface needs polish.</p>
+<p>By sharing optimized solutions, we save everyone that time. It's not just convenient — it's <span class="highlight">sustainable</span>. Shared tools mean less redundant work, fewer wasted tokens, and higher quality for everyone.</p>
+<p>You still want good creations because standardization matters. Building a small piece from scratch every time is time-consuming, wasteful, and produces inconsistent results. <span class="highlight">That's the value of sharing.</span></p>`,
+        howItWorksIntro: `<p>Every tool in SPORTTOOLS gives you multiple ways to use it:</p>`,
+        future: `<p>We're not just building a catalog — we're building a <span class="highlight">community</span>.</p>
+<p>Our next step is creating a collaboration panel where anyone can share their pain points, and others can design solutions to address them. Good work gets recognized. Problems get solved. The community grows stronger.</p>`
+      },
+      es: {
+        vision: `<p><span class="highlight">SPORTTOOLS es un espacio de colaboración comunitaria</span> para herramientas de administración deportiva construidas con IA.</p>
+<p>Creemos que el mejor enfoque para las organizaciones deportivas reside en <span class="highlight">soluciones simples y modulares</span> que pueden construirse unas sobre otras. Muchas organizaciones no necesitan — o no pueden adquirir — software pesado y multipropósito. El futuro son herramientas ligeras y flexibles que puedes añadir o quitar según tus necesidades reales.</p>
+<p>La IA está transformando cómo se construye el software. La era de las soluciones universales y con todo incluido está llegando a su fin. Al final, todo se reduce a: un problema, una solución.</p>`,
+        value: `<p>Pasar de una buena idea a una herramienta pulida y funcional requiere <span class="highlight">un tiempo de iteración significativo</span>. Cada prompt necesita refinamiento. Cada caso extremo necesita manejo. Cada interfaz necesita pulido.</p>
+<p>Al compartir soluciones optimizadas, le ahorramos ese tiempo a todos. No es solo conveniente — es <span class="highlight">sostenible</span>. Las herramientas compartidas significan menos trabajo redundante, menos tokens desperdiciados y mayor calidad para todos.</p>
+<p>Aún quieres buenas creaciones porque la estandarización importa. Construir una pequeña pieza desde cero cada vez consume tiempo, es un desperdicio y produce resultados inconsistentes. <span class="highlight">Ese es el valor de compartir.</span></p>`,
+        howItWorksIntro: `<p>Cada herramienta en SPORTTOOLS te ofrece múltiples formas de usarla:</p>`,
+        future: `<p>No solo estamos construyendo un catálogo — estamos construyendo una <span class="highlight">comunidad</span>.</p>
+<p>Nuestro siguiente paso es crear un panel de colaboración donde cualquiera pueda compartir sus problemas, y otros puedan diseñar soluciones. El buen trabajo se reconoce. Los problemas se resuelven. La comunidad se fortalece.</p>`
+      }
+    };
+
+    let lang = localStorage.getItem('sporttools-lang') || 'en';
+
+    function loadContent() {
+      document.getElementById('visionContent').innerHTML = content[lang].vision;
+      document.getElementById('valueContent').innerHTML = content[lang].value;
+      document.getElementById('howItWorksIntro').innerHTML = content[lang].howItWorksIntro;
+      document.getElementById('futureContent').innerHTML = content[lang].future;
+    }
+
+    function setLang(l) {
+      lang = l;
+      localStorage.setItem('sporttools-lang', l);
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (i18n[lang][key]) {
+          el.innerHTML = i18n[lang][key];
+        }
+      });
+      loadContent();
+    }
+
+    // Init
+    document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+    setLang(lang);
+  </script>
+</body>
+</html>

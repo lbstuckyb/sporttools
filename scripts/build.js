@@ -86,6 +86,13 @@ function build() {
         prompt: `tools/${toolDir}/prompt.md`
       };
       
+      // Check for optional skill file
+      const skillPath = path.join(toolPath, 'skill.md');
+      if (fs.existsSync(skillPath)) {
+        toolData.paths.skill = `tools/${toolDir}/skill.md`;
+        console.log(`   └─ 🎯 Has AI Skill`);
+      }
+      
       // Add to catalog
       catalog.push(toolData);
       
@@ -93,7 +100,8 @@ function build() {
       const destPath = path.join(DOCS_TOOLS_DIR, toolDir);
       copyDir(toolPath, destPath);
       
-      console.log(`✅ ${toolData.name.en || toolDir}`);
+      const createdWithInfo = toolData.createdWith ? ` (${toolData.createdWith})` : '';
+      console.log(`✅ ${toolData.name.en || toolDir}${createdWithInfo}`);
       
     } catch (err) {
       errors.push(`❌ ${toolDir}: ${err.message}`);
@@ -119,6 +127,19 @@ function build() {
   // Summary
   console.log('\n' + '─'.repeat(40));
   console.log(`\n📦 Catalog: ${catalog.length} tool(s)`);
+  
+  // Count tools with skills
+  const skillCount = catalog.filter(t => t.paths && t.paths.skill).length;
+  if (skillCount > 0) {
+    console.log(`🎯 AI Skills: ${skillCount} tool(s)`);
+  }
+  
+  // Count tools with createdWith
+  const createdWithCount = catalog.filter(t => t.createdWith).length;
+  if (createdWithCount > 0) {
+    console.log(`🤖 Created with AI: ${createdWithCount} tool(s)`);
+  }
+  
   console.log(`📄 Output: docs/catalog.json`);
   
   if (errors.length > 0) {
