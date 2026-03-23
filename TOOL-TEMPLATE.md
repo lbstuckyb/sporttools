@@ -14,7 +14,8 @@ tools/
     ├── tool.json         ← Metadata
     ├── index.html        ← Wrapper page (SPORTTOOLS header + iframe)
     ├── tool.html         ← The actual tool (with optional footer)
-    └── prompt.md         ← Generation prompt
+    ├── prompt.md         ← Generation prompt
+    └── skill.md          ← (Optional) AI Skill file
 ```
 
 ---
@@ -44,12 +45,30 @@ tools/
   },
   "languages": ["EN", "ES"],
   "author": "Your Name",
-  "dateAdded": "2025-02",
+  "dateAdded": "2025-03",
   "downloads": 0,
   "rating": 0,
-  "status": "active"
+  "status": "active",
+  "createdWith": "Claude Opus 4.5"
 }
 ```
+
+**Field details:**
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `id` | ✅ | URL-safe identifier, matches folder name |
+| `name` | ✅ | Tool name in EN and ES |
+| `description` | ✅ | What the tool does |
+| `problem` | ✅ | One-line problem statement |
+| `features` | ✅ | List of key features (3-5 items) |
+| `languages` | ✅ | Languages the tool's UI supports |
+| `author` | ✅ | Creator name |
+| `dateAdded` | ✅ | Format: YYYY-MM |
+| `downloads` | ✅ | Manual placeholder (start at 0) |
+| `rating` | ✅ | Manual placeholder (start at 0) |
+| `status` | ✅ | `"active"` or `"coming-soon"` |
+| `createdWith` | ❌ | AI model used (e.g., "Claude Opus 4.5") |
 
 **Status options:**
 - `"active"` — Tool is ready to use
@@ -227,6 +246,38 @@ Include:
 
 ---
 
+### 5. skill.md — AI Skill File (Optional)
+
+An AI Skill file that users can add to their AI assistant (like Claude) to get help with this tool or create similar tools.
+
+**When to include:**
+- The tool has complex logic worth teaching an AI
+- Users might want to customize or extend the tool
+- The tool solves a repeatable problem pattern
+
+**Structure suggestion:**
+```markdown
+---
+name: your-tool-skill
+description: Brief description of what this skill enables
+---
+
+# Tool Name — AI Skill
+
+## What This Skill Does
+...
+
+## How to Use
+...
+
+## Key Patterns
+...
+```
+
+If a `skill.md` file exists, the build script automatically adds it to `paths.skill` and the AI Skill button appears on the tool card.
+
+---
+
 ## How It Works
 
 | Action | What happens |
@@ -234,14 +285,17 @@ Include:
 | **Use** button | Opens `index.html` (wrapper with SPORTTOOLS header) |
 | **Download** button | Downloads `tool.html` (standalone tool) |
 | **Prompt** button | Copies `prompt.md` to clipboard |
+| **AI Skill** button | Copies `skill.md` to clipboard (only if file exists) |
 
 ---
 
 ## Checklist Before Adding a Tool
 
-- [ ] `tool.json` has all required fields
-- [ ] `index.html` wrapper page exists with correct tool name
+- [ ] `tool.json` has all required fields (including `createdWith` if AI-generated)
+- [ ] `index.html` wrapper page exists (copy from template)
 - [ ] `tool.html` works standalone when opened directly
 - [ ] `prompt.md` contains the full generation prompt
+- [ ] (Optional) `skill.md` for AI Skill support
 - [ ] Run `node scripts/build.js` — no errors
 - [ ] Test locally with `python -m http.server 8000`
+- [ ] Push to deploy

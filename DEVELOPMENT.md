@@ -26,7 +26,9 @@ cd sporttools
 ```
 sporttools/
 ├── docs/                     ← GitHub Pages serves from here
-│   ├── index.html            ← Landing page
+│   ├── index.html            ← Tools page (home)
+│   ├── about.html            ← About page
+│   ├── about-content.md      ← Reference content for About
 │   ├── catalog.json          ← Auto-generated
 │   └── tools/                ← Copied from /tools on build
 │
@@ -35,7 +37,8 @@ sporttools/
 │       ├── tool.json         ← Metadata
 │       ├── index.html        ← Wrapper page
 │       ├── tool.html         ← Actual tool
-│       └── prompt.md         ← Generation prompt
+│       ├── prompt.md         ← Generation prompt
+│       └── skill.md          ← (Optional) AI Skill file
 │
 ├── scripts/
 │   └── build.js              ← Build script
@@ -55,8 +58,9 @@ node scripts/build.js
 This:
 1. Scans `/tools/` for tool folders
 2. Validates each `tool.json`
-3. Copies tools to `/docs/tools/`
-4. Generates `/docs/catalog.json`
+3. Checks for optional `skill.md` files
+4. Copies tools to `/docs/tools/`
+5. Generates `/docs/catalog.json`
 
 ---
 
@@ -94,9 +98,19 @@ See [TOOL-TEMPLATE.md](TOOL-TEMPLATE.md) for the complete guide.
 Quick steps:
 1. Create folder: `tools/your-tool-name/`
 2. Add files: `tool.json`, `index.html`, `tool.html`, `prompt.md`
-3. Run `node scripts/build.js`
-4. Test locally
-5. Push
+3. (Optional) Add `skill.md` for AI Skill support
+4. Run `node scripts/build.js`
+5. Test locally
+6. Push
+
+---
+
+## Site Pages
+
+| Page | File | Description |
+|------|------|-------------|
+| Tools (Home) | `docs/index.html` | Tool catalog |
+| About | `docs/about.html` | Vision, how it works, future plans |
 
 ---
 
@@ -111,17 +125,3 @@ Quick steps:
 | `TECHNICAL.md` | Code documentation |
 | `CHANGELOG.md` | Version history |
 
----
-
-## Custom Domain
-
-1. Buy domain (sporttools.io, etc.)
-2. Create `docs/CNAME` with your domain:
-   ```
-   sporttools.io
-   ```
-3. Configure DNS at your registrar:
-   - **Apex domain:** A records → GitHub IPs
-   - **Subdomain:** CNAME → `username.github.io`
-
-See: [GitHub Pages custom domains](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)

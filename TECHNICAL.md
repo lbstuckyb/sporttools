@@ -4,7 +4,19 @@
 
 ---
 
-## Landing Page (docs/index.html)
+## Site Structure
+
+```
+/                    → docs/index.html (Tools page — home)
+/about.html          → docs/about.html (About page)
+/tools/[id]/         → Individual tool wrapper pages
+```
+
+**Navigation:** Tools | About (in header on both pages)
+
+---
+
+## Tools Page (docs/index.html)
 
 ### Overview
 
@@ -48,6 +60,8 @@ Single HTML file containing:
   --accent-download-hover: #047857;
   --accent-prompt: #ea580c;         /* Orange - Prompt button */
   --accent-prompt-hover: #c2410c;
+  --accent-skill: #0a0a0a;          /* Black - AI Skill button */
+  --accent-skill-hover: #262626;
   
   /* Spacing & Sizing */
   --radius-sm: 4px;
@@ -65,7 +79,7 @@ Single HTML file containing:
 
 #### Key CSS Patterns
 
-**Sticky Header:**
+**Sticky Header with Navigation:**
 ```css
 .header {
   position: sticky;
@@ -73,6 +87,22 @@ Single HTML file containing:
   z-index: 100;
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border-light);
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav {
+  display: flex;
+  gap: 8px;
+}
+.nav-link {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+}
+.nav-link.active {
+  background: var(--bg-elevated);
 }
 ```
 
@@ -133,11 +163,19 @@ let catalog = { tools: [] };
 ```javascript
 const i18n = {
   en: {
+    navTools: 'Tools',
+    navAbout: 'About',
     tagline: 'Simple tools. Direct solutions.',
+    heroDescription: 'Ready-to-use sports tools built with AI. Community-driven.',
+    heroActions: 'Use · Create · Customize · Improve · Share · Learn',
     // ... all strings
   },
   es: {
+    navTools: 'Herramientas',
+    navAbout: 'Acerca de',
     tagline: 'Herramientas simples. Soluciones directas.',
+    heroDescription: 'Herramientas deportivas listas para usar, creadas con IA. Impulsado por la comunidad.',
+    heroActions: 'Usar · Crear · Personalizar · Mejorar · Compartir · Aprender',
     // ... all strings
   }
 };
@@ -179,6 +217,7 @@ function render() {
   const grid = document.getElementById('toolsGrid');
   
   grid.innerHTML = catalog.tools.map(tool => {
+    const hasSkill = tool.paths && tool.paths.skill;
     // Build HTML string for each tool card
     return `<article class="tool-card">...</article>`;
   }).join('');
@@ -192,6 +231,8 @@ function render() {
 - Uses template literals for HTML
 - Conditional rendering with ternary operators
 - Handles both active and coming-soon states
+- Shows AI Skill button only if `tool.paths.skill` exists
+- Shows `createdWith` badge if field exists
 
 #### Features Toggle
 
@@ -231,6 +272,23 @@ async function copyPrompt(path) {
 2. Copy text to clipboard
 3. Show success toast
 4. If anything fails → open file in new tab + show error toast
+
+#### Skill Copy (similar to Prompt)
+
+```javascript
+async function copySkill(path) {
+  try {
+    const res = await fetch('./' + path);
+    if (!res.ok) throw new Error('Fetch failed');
+    const text = await res.text();
+    await navigator.clipboard.writeText(text);
+    showToast(t('skillCopiedToast'));
+  } catch (e) {
+    window.open('./' + path, '_blank');
+    showToast(t('copyError'), true);
+  }
+}
+```
 
 #### Language Switching
 
@@ -285,11 +343,28 @@ function showToast(msg, isError = false) {
 
 ```html
 <body>
-  <!-- Sticky header with logo and language toggle -->
-  <header class="header">...</header>
+  <!-- Sticky header with logo, nav, and language toggle -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <a class="logo">...</a>
+        <nav class="nav">
+          <a href="./" class="nav-link active">Tools</a>
+          <a href="./about.html" class="nav-link">About</a>
+        </nav>
+      </div>
+      <div class="header-right">
+        <div class="lang-toggle">...</div>
+      </div>
+    </div>
+  </header>
   
   <!-- Hero section with tagline -->
-  <section class="hero">...</section>
+  <section class="hero">
+    <h1 data-i18n="tagline">Simple tools. Direct solutions.</h1>
+    <p data-i18n="heroDescription">...</p>
+    <p data-i18n="heroActions">Use · Create · ...</p>
+  </section>
   
   <!-- Main content with tool grid -->
   <main class="main">
@@ -305,11 +380,58 @@ function showToast(msg, isError = false) {
   <!-- Toast notification (hidden by default) -->
   <div class="toast" id="toast">...</div>
   
-  <script>
-    // All JavaScript here
-  </script>
+  <script>...</script>
 </body>
 ```
+
+---
+
+## About Page (docs/about.html)
+
+### Overview
+
+Standalone page with same header/footer as Tools page. Contains:
+- Vision section
+- Value proposition section
+- How It Works section (4 action cards)
+- Future Development section (community collaboration panel)
+
+### Content Management
+
+Content is **hardcoded in the HTML** inside a `content` object:
+
+```javascript
+const content = {
+  en: {
+    vision: `<p>...</p>`,
+    value: `<p>...</p>`,
+    // ...
+  },
+  es: {
+    vision: `<p>...</p>`,
+    // ...
+  }
+};
+```
+
+**Note:** `about-content.md` exists as a reference document but is NOT auto-loaded. Edit the `content` object in `about.html` directly.
+
+### Sections
+
+1. **Our Vision** — Community collaborative space, modular solutions philosophy
+2. **Why It Matters** — Value of sharing, sustainability, standardization
+3. **How It Works** — 4 cards: Use, Download, Prompt, AI Skill (coming soon)
+4. **Future Development** — Community collaboration panel with interactive flow diagram
+
+### Flow Diagram
+
+Interactive CSS-based diagram showing:
+```
+Pain Point → Community → Solution → Share
+```
+
+- Hover states on each step
+- Footnote: "Liked a solution? Hire the talent behind it"
 
 ---
 
@@ -329,7 +451,7 @@ Provides SPORTTOOLS branding when using a tool on the site.
       <a href="../../" class="back-link">← Back to Tools</a>
       
       <!-- Right: SPORTTOOLS logo -->
-      <a href="https://sporttools.io" class="logo">SPORTTOOLS</a>
+      <a href="https://sporttools.eu" class="logo">SPORTTOOLS</a>
     </div>
   </header>
   
@@ -384,7 +506,7 @@ body {
 2. For each subdirectory:
    a. Check for tool.json
    b. Parse and validate
-   c. Add paths
+   c. Add paths (including skill.md if exists)
    d. Copy folder to /docs/tools/
 3. Sort tools (active first, newest first)
 4. Write catalog.json
@@ -415,6 +537,12 @@ toolData.paths = {
   tool: `tools/${toolDir}/tool.html`, // Download file
   prompt: `tools/${toolDir}/prompt.md`
 };
+
+// Check for optional skill file
+const skillPath = path.join(toolPath, 'skill.md');
+if (fs.existsSync(skillPath)) {
+  toolData.paths.skill = `tools/${toolDir}/skill.md`;
+}
 ```
 
 **Sorting:**
@@ -468,7 +596,7 @@ This ensures the deployed version has the latest catalog.
 
 ### Adding a New Language
 
-1. Add translations to `i18n` object in `index.html`
+1. Add translations to `i18n` object in `index.html` and `about.html`
 2. Add button to `.lang-toggle`
 3. Update `setLang()` if needed
 
@@ -521,3 +649,7 @@ Would require:
 - Check `tool.json` syntax (valid JSON?)
 - Verify required fields present
 - Check file permissions
+
+**About page content not updating:**
+- Remember: content is hardcoded in `about.html`
+- Edit the `content` object directly, not `about-content.md`

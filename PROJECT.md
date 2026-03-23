@@ -321,10 +321,8 @@ sporttools/
 - [x] createdWith field for AI attribution
 
 ### Phase 2: More Tools
-- [ ] Bracket Generator
-- [ ] Team Roster Manager
-- [ ] Score Tracker
-- [ ] Timer/Stopwatch
+- [ ] Still Thinking
+
 
 ### Phase 3: Enhanced Features
 - [ ] Search/filter tools
@@ -385,5 +383,5 @@ sporttools/
 ## Contact / Ownership
 
 - **Project:** SPORTTOOLS
-- **Domain:** sporttools.io (or .app, .com — TBD)
-- **Repository:** github.com/[username]/sporttools
+- **Domain:** sporttools.eu 
+- **Repository:** github.com/lbstuckyb/sporttools
